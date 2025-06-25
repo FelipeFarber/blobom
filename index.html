@@ -244,6 +244,78 @@
         .mobile-nav, .cart-fab {
             display: none;
         }
+
+        /* ========================================
+        Seção Hero (Vídeo)
+        ========================================
+        */
+        .hero-section {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--cor-branco);
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-family: 'Lora', serif;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        .hero-cta {
+            font-size: 1.2rem;
+            padding: 15px 35px;
+            border-radius: 50px;
+            background-color: var(--cor-destaque);
+            color: var(--cor-branco);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--sombra-forte);
+        }
+
+        .hero-cta:hover {
+            background-color: var(--cor-primaria);
+            transform: translateY(-3px) scale(1.05);
+        }
         
         /* ========================================
         Tabs de Produtos
@@ -295,7 +367,8 @@
         ========================================
         */
         .produtos-section {
-            padding-top: calc(var(--header-altura) + 50px);
+            padding-top: 80px; /* Ajuste para dar espaço após a seção de vídeo */
+            padding-bottom: 80px;
         }
 
         .produtos-grid {
@@ -719,7 +792,7 @@
             visibility: visible;
         }
         
-        /* Back to top button */
+        /* Controles flutuantes */
         .back-to-top {
             position: fixed;
             width: 50px;
@@ -732,10 +805,10 @@
             align-items: center;
             font-size: 1.2rem;
             box-shadow: var(--sombra-forte);
+            transition: all 0.4s ease;
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: all 0.4s ease;
             z-index: 1002;
         }
 
@@ -763,7 +836,7 @@
             padding: 15px 30px;
             border-radius: 50px;
             box-shadow: var(--sombra-forte);
-            z-index: 1002;
+            z-index: 1003;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
             opacity: 0;
             pointer-events: none;
@@ -790,6 +863,13 @@
         }
         
         @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
             h2.section-title { font-size: 2.2rem; }
 
             /* --- INÍCIO: AJUSTES DO HEADER PARA MOBILE --- */
@@ -804,7 +884,7 @@
                 align-items: center;
                 width: 100%;
                 padding: 0 15px;
-                position: relative; /* Contexto para posicionamento absoluto */
+                position: relative;
             }
 
             .header-left, .header-right {
@@ -812,7 +892,6 @@
                 align-items: center;
             }
             
-            /* Posiciona o logo do meio de forma absoluta para garantir a centralização */
             .header-center {
                 position: absolute;
                 left: 50%;
@@ -861,12 +940,11 @@
             
             .back-to-top {
                 bottom: 80px;
-                left: 20px;
-                right: auto;
+                right: 20px;
             }
 
             main {
-                padding-bottom: 80px; /* Espaço para a navegação inferior */
+                padding-bottom: 80px; 
             }
             
             .contato-botoes {
@@ -917,28 +995,20 @@
         </div>
     </header>
 
-    <aside class="cart-sidebar">
-        <div class="cart-header">
-            <h3>Seu Pedido</h3>
-            <button class="close-cart">&times;</button>
-        </div>
-        <div class="cart-items">
-            <!-- Itens do carrinho serão inseridos aqui via JS -->
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cart-total-price">R$ 0,00</span>
-            </div>
-            <button class="whatsapp-btn">
-                <i class="fab fa-whatsapp"></i>
-                Finalizar Pedido
-            </button>
-        </div>
-    </aside>
-    <div class="overlay"></div>
-
     <main>
+        <section class="hero-section" id="home">
+            <div class="hero-overlay"></div>
+            <video class="hero-video" autoplay loop muted playsinline>
+                <source src="/images/videoinicial.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos.
+            </video>
+            <div class="hero-content">
+                <h1>Sabor que abraça a alma</h1>
+                <p>Bolos caseiros feitos com amor, fresquinhos para você.</p>
+                <a href="#produtos" class="hero-cta">Conheça nossos sabores</a>
+            </div>
+        </section>
+
         <section id="produtos" class="produtos-section container">
              <div class="tabs-container">
                  <button class="tab-button active" data-tab="bolos">Bolos Caseiros</button>
@@ -969,12 +1039,12 @@
                 <h2 class="section-title">Conheça quem faz</h2>
                  <div class="criadores">
                      <div class="criador-card">
-                         <img src="felipe.jpg" alt="Foto do Felipe" class="criador-foto">
+                         <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
                          <h3 class="criador-nome">Felipe</h3>
                          <p class="criador-funcao">Criador BlôBom</p>
                      </div>
                      <div class="criador-card">
-                         <img src="karine.jpg" alt="Foto da Karine" class="criador-foto">
+                         <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
                          <h3 class="criador-nome">Karine</h3>
                          <p class="criador-funcao">Criadora BlôBom</p>
                      </div>
@@ -996,6 +1066,28 @@
             </div>
         </section>
     </main>
+
+    <aside class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Seu Pedido</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Itens do carrinho serão inseridos aqui via JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">R$ 0,00</span>
+            </div>
+            <button class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+                Finalizar Pedido
+            </button>
+        </div>
+    </aside>
+    <div class="overlay"></div>
+
 
     <footer class="footer">
         <p>&copy; 2025 BlôBom - Todos os direitos reservados.</p>
