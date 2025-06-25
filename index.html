@@ -852,7 +852,7 @@
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
             opacity: 0;
             pointer-events: none;
-            white-space: nowrap;
+            /* white-space: nowrap; REMOVIDO PARA PERMITIR QUEBRA DE LINHA */
         }
 
         .confirmation-toast.show {
@@ -1029,21 +1029,18 @@
 
              <div id="tab-bolos" class="tab-content active">
                  <div id="bolos-grid" class="produtos-grid">
-                     <!-- Cards de Bolos serão inseridos aqui via JS -->
-                 </div>
+                     </div>
              </div>
              <div id="tab-paes" class="tab-content">
                  <div id="paes-grid" class="produtos-grid">
-                     <!-- Cards de Pães serão inseridos aqui via JS -->
-                 </div>
+                     </div>
              </div>
         </section>
         
         <section id="coberturas" class="produtos-section container" style="display: none;">
              <div class="cobertura-status"></div>
              <div id="coberturas-grid" class="produtos-grid">
-                 <!-- Cards de Coberturas serão inseridos aqui via JS -->
-             </div>
+                 </div>
         </section>
 
         <section id="contato" class="contato-section">
@@ -1085,8 +1082,7 @@
             <button class="close-cart">&times;</button>
         </div>
         <div class="cart-items">
-            <!-- Itens do carrinho serão inseridos aqui via JS -->
-        </div>
+            </div>
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
