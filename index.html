@@ -627,7 +627,7 @@
             box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 1001;
+            z-index: 1050; /* Aumentado */
             display: flex;
             flex-direction: column;
         }
@@ -649,13 +649,22 @@
         }
 
         .close-cart {
-            font-size: 1.8rem;
-            background: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--cor-secundaria);
             color: var(--cor-texto);
+            font-size: 2rem;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
         }
 
         .close-cart:hover {
-            color: var(--cor-destaque);
+            background-color: var(--cor-destaque);
+            color: var(--cor-branco);
             transform: rotate(90deg);
         }
         
@@ -781,7 +790,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 1040; /* Abaixo do carrinho */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s;
@@ -795,6 +804,8 @@
         /* Controles flutuantes */
         .back-to-top {
             position: fixed;
+            bottom: 30px;
+            right: 30px;
             width: 50px;
             height: 50px;
             background-color: var(--cor-primaria);
@@ -836,7 +847,7 @@
             padding: 15px 30px;
             border-radius: 50px;
             box-shadow: var(--sombra-forte);
-            z-index: 1003;
+            z-index: 1060; /* Acima de tudo */
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
             opacity: 0;
             pointer-events: none;
@@ -1003,8 +1014,8 @@
                 Seu navegador não suporta vídeos.
             </video>
             <div class="hero-content">
-                <h1>Sabor que abraça a alma</h1>
-                <p>Bolos caseiros feitos com amor, fresquinhos para você.</p>
+                <h1>Sabor que abraça</h1>
+                <p>Bolos e Pães caseiros feitos com amor, fresquinhos para você.</p>
                 <a href="#produtos" class="hero-cta">Conheça nossos sabores</a>
             </div>
         </section>
