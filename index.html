@@ -672,6 +672,7 @@
         .cart-items {
             flex-grow: 1;
             overflow-y: auto;
+            overflow-x: hidden; /* Evita a barra de rolagem horizontal durante a animação */
             padding: 20px;
         }
         
@@ -684,6 +685,26 @@
             gap: 15px;
             align-items: center;
             margin-bottom: 20px;
+        }
+
+        .cart-item.removing {
+            animation: removeItemAnimation 0.6s ease forwards;
+        }
+
+        @keyframes removeItemAnimation {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+                max-height: 120px;
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+                max-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
         }
 
         .cart-item img {
@@ -805,8 +826,6 @@
         /* Controles flutuantes */
         .back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
             width: 50px;
             height: 50px;
             background-color: var(--cor-primaria);
@@ -875,6 +894,10 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-bottom: 70px; /* Adiciona espaço para a barra de navegação inferior */
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -951,12 +974,19 @@
             }
             
             .back-to-top {
-                bottom: 80px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                bottom: 85px; 
                 right: 20px;
             }
 
+            .back-to-top.at-footer {
+                transform: translateY(-70px);
+            }
+
             main {
-                padding-bottom: 80px; 
+                padding-bottom: 0; /* Removido pois o padding agora está no body */
             }
             
             .contato-botoes {
@@ -1172,6 +1202,7 @@
         const overlay = document.querySelector('.overlay');
         const whatsappBtn = document.querySelector('.whatsapp-btn');
         const backToTopBtn = document.querySelector('.back-to-top');
+        const footer = document.querySelector('.footer');
 
         let cart = [];
         let produtoSendoPersonalizado = null;
@@ -1390,6 +1421,7 @@
             cart.forEach(item => {
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item';
+                itemEl.dataset.id = item.id; // Adiciona o data-id para fácil seleção
                 
                 const nomeItem = `${item.nome} (${item.tamanho})`;
                 const coberturaInfo = item.coberturaNome ? `<small>+ ${item.coberturaNome}</small>` : '';
@@ -1431,15 +1463,26 @@
             if(itemNoCarrinho) {
                 itemNoCarrinho.quantidade += change;
                 if (itemNoCarrinho.quantidade <= 0) {
-                    removerDoCarrinho(itemId);
+                    removerItemDoCarrinho(itemId); // Chama a função com animação
+                } else {
+                    updateCart();
                 }
             }
-            updateCart();
         }
 
-        function removerDoCarrinho(itemId) {
-            cart = cart.filter(item => item.id.toString() !== itemId.toString());
-            updateCart();
+        function removerItemDoCarrinho(itemId) {
+            const itemEl = cartItemsContainer.querySelector(`.cart-item[data-id="${itemId}"]`);
+            if (itemEl) {
+                itemEl.classList.add('removing');
+                itemEl.addEventListener('animationend', () => {
+                    cart = cart.filter(item => item.id.toString() !== itemId.toString());
+                    updateCart();
+                }, { once: true });
+            } else {
+                // Fallback para caso o elemento não seja encontrado (improvável)
+                cart = cart.filter(item => item.id.toString() !== itemId.toString());
+                updateCart();
+            }
         }
         
         function finalizarPedido() {
@@ -1554,7 +1597,7 @@
                  changeQuantity(id, -1);
              }
              if(target.classList.contains('btn-remover')) {
-                 removerDoCarrinho(id);
+                 removerItemDoCarrinho(id); // Usa a função com animação
              }
         });
         
@@ -1581,6 +1624,16 @@
                 }
             });
         });
+
+        if (footer && backToTopBtn) {
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    backToTopBtn.classList.toggle('at-footer', entry.isIntersecting);
+                },
+                { threshold: 0.1 }
+            );
+            observer.observe(footer);
+        }
 
         // ===================================
         // Inicialização
