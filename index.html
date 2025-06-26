@@ -118,13 +118,17 @@
         }
 
         .loading-logo {
-            width: 250px;
-            animation: spin 2s linear infinite;
+            width: 350px;
+            animation: paused-spin 3s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes paused-spin {
+            0%, 100% { 
+                transform: rotate(0deg); 
+            }
+            50% { 
+                transform: rotate(360deg); 
+            }
         }
 
         /* ========================================
@@ -1164,7 +1168,7 @@
             </div>
         <div class="cart-footer">
             <div class="delivery-info">
-                <p><i class="fas fa-motorcycle"></i>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
+                <p>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
             </div>
             <div class="cart-total">
                 <span>Total:</span>
