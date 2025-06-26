@@ -987,6 +987,10 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-bottom: 20px; /* Garante espaço para o footer não ser cortado */
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -1245,14 +1249,14 @@
         // Dados (com imagens originais)
         // ===================================
         const produtos = [
-            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 14.00}]},
-            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 14.00}] },
-            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 14.00}] },
-            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '400g', preco: 15.00}] },
-            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 14.00}] },
-            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, contem: ['Amendoim'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '400g', preco: 15.00}] },
-            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '400g', preco: 15.00}] },
-            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '400g', preco: 16.00}] },
+            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
+            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, contem: ['Amendoim'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
             { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
             { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
             { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
