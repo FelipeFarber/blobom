@@ -291,11 +291,11 @@
         
         .hero-contact-icon {
             position: absolute;
-            top: 120px;
+            top: 150px;
             right: 20px;
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.5);
             color: var(--cor-branco);
             border-radius: 50%;
             display: flex;
@@ -308,7 +308,7 @@
         }
         
         .hero-contact-icon:hover {
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.7);
             transform: scale(1.1);
         }
 
@@ -546,6 +546,35 @@
         .contato-section {
             padding: 80px 0;
             background-color: var(--cor-secundaria);
+            position: relative; /* Para posicionar as imagens */
+            overflow: hidden; /* Esconde qualquer parte das imagens que saia da seção */
+        }
+        
+        .contato-logo-left, .contato-logo-right {
+            position: absolute;
+            top: 10px; /* Ajuste a distância do topo conforme necessário */
+            width: 100px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            opacity: 0.3; /* Reduz a opacidade para não distrair */
+            animation: rotate 10s linear infinite;
+        }
+        
+        .contato-logo-left {
+            left: 10px; /* Ajuste a distância da esquerda */
+        }
+        
+        .contato-logo-right {
+            right: 10px; /* Ajuste a distância da direita */
+            transform: scaleX(-1); /* Opcional: espelha a imagem */
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .contato-wrapper {
@@ -553,6 +582,8 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            position: relative; /* Garante que o conteúdo fique acima das imagens */
+            z-index: 1;
         }
         
         .criadores {
@@ -1139,6 +1170,7 @@
         </section>
 
         <section id="contato" class="contato-section">
+            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-left">
             <div class="container contato-wrapper">
                 <h2 class="section-title">Conheça quem faz</h2>
                  <div class="criadores">
@@ -1168,6 +1200,7 @@
                     </div>
                 </div>
             </div>
+            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-right">
         </section>
     </main>
 
@@ -1180,7 +1213,7 @@
             </div>
         <div class="cart-footer">
             <div class="delivery-info">
-                <p><i class="fas fa-motorcycle"></i>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
+                <p>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
             </div>
             <div class="cart-total">
                 <span>Total:</span>
