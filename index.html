@@ -800,6 +800,20 @@
             background-color: var(--cor-secundaria);
         }
         
+        .delivery-info {
+            background-color: var(--cor-branco);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px dashed var(--cor-destaque);
+            font-size: 0.9rem;
+        }
+        .delivery-info i {
+            margin-right: 8px;
+            color: var(--cor-destaque);
+        }
+        
         .cart-total {
             display: flex;
             justify-content: space-between;
@@ -922,6 +936,10 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-bottom: 20px; /* Garante espaço para o footer não ser cortado */
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -972,11 +990,48 @@
             }
             /* --- FIM: AJUSTES DO HEADER PARA MOBILE --- */
             
+            .produtos-grid {
+                grid-template-columns: 1fr;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            .produto-card .produto-info {
+                padding: 15px;
+            }
+
+            .produto-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .cobertura-card .produto-info {
+                padding: 10px;
+            }
+
+            .cobertura-card h3 {
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
+
+            .cobertura-card .produto-detalhes {
+                font-size: 0.8rem;
+                min-height: 25px;
+            }
+
+            .cobertura-card .produto-preco {
+                font-size: 1rem;
+            }
+
+            .cobertura-card .btn-adicionar-cobertura {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+
+
             .back-to-top {
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
-                bottom: 30px; 
+                bottom: 20px; 
                 right: 20px;
             }
             
@@ -1108,6 +1163,9 @@
         <div class="cart-items">
             </div>
         <div class="cart-footer">
+            <div class="delivery-info">
+                <p><i class="fas fa-motorcycle"></i>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
+            </div>
             <div class="cart-total">
                 <span>Total:</span>
                 <span id="cart-total-price">R$ 0,00</span>
@@ -1178,7 +1236,6 @@
         
         const cartSidebar = document.querySelector('.cart-sidebar');
         const cartIconDesktop = document.querySelector('.header-right .cart-icon-wrapper');
-        const cartIconMobile = document.querySelector('.cart-fab');
         const closeCartBtn = document.querySelector('.close-cart');
         const cartItemsContainer = document.querySelector('.cart-items');
         const cartCountEls = document.querySelectorAll('.cart-count');
@@ -1589,7 +1646,6 @@
         });
         
         cartIconDesktop.addEventListener('click', toggleCart);
-        // cartIconMobile.addEventListener('click', toggleCart);
         closeCartBtn.addEventListener('click', toggleCart);
         overlay.addEventListener('click', toggleCart);
         whatsappBtn.addEventListener('click', finalizarPedido);
