@@ -63,6 +63,7 @@
         button:disabled {
             background-color: #ccc !important;
             cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .container {
@@ -242,10 +243,6 @@
             transform: scale(1);
         }
         
-        .mobile-nav, .cart-fab {
-            display: none;
-        }
-
         /* ========================================
         Seção Hero (Vídeo)
         ========================================
@@ -287,6 +284,30 @@
             max-width: 800px;
             padding: 20px;
         }
+        
+        .hero-contact-icon {
+            position: absolute;
+            top: 120px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--cor-branco);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-contact-icon:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
 
         .hero-content h1 {
             font-size: 4rem;
@@ -624,7 +645,7 @@
             width: 100%;
             max-width: 400px;
             height: 100%;
-            background-color: var(--cor-fundo);
+            background-color: var(--cor-secundaria);
             box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -642,7 +663,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            border-bottom: 1px solid var(--cor-secundaria);
+            border-bottom: 1px solid var(--cor-primaria);
         }
         
         .cart-header h3 {
@@ -653,7 +674,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: var(--cor-secundaria);
+            background-color: transparent;
             color: var(--cor-texto);
             font-size: 2rem;
             line-height: 1;
@@ -747,7 +768,7 @@
             width: 25px;
             height: 25px;
             border-radius: 50%;
-            background-color: var(--cor-secundaria);
+            background-color: var(--cor-branco);
         }
         
         .btn-remover {
@@ -775,7 +796,8 @@
         
         .cart-footer {
             padding: 20px;
-            border-top: 1px solid var(--cor-secundaria);
+            border-top: 1px solid var(--cor-primaria);
+            background-color: var(--cor-secundaria);
         }
         
         .cart-total {
@@ -798,6 +820,7 @@
             color: var(--cor-branco);
             font-size: 1.1rem;
             font-weight: 600;
+            margin-top: 20px;
         }
 
         .whatsapp-btn:hover {
@@ -826,6 +849,8 @@
         /* Controles flutuantes */
         .back-to-top {
             position: fixed;
+            bottom: 30px;
+            right: 30px;
             width: 50px;
             height: 50px;
             background-color: var(--cor-primaria);
@@ -884,6 +909,9 @@
         ========================================
         */
         @media (min-width: 769px) {
+            .hero-contact-icon {
+                display: none;
+            }
             .back-to-top {
                 bottom: 30px;
                 right: 30px;
@@ -894,10 +922,6 @@
         }
         
         @media (max-width: 768px) {
-            body {
-                padding-bottom: 70px; /* Adiciona espaço para a barra de navegação inferior */
-            }
-
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -948,45 +972,12 @@
             }
             /* --- FIM: AJUSTES DO HEADER PARA MOBILE --- */
             
-            .mobile-nav {
-                display: flex;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background-color: var(--cor-branco);
-                justify-content: space-around;
-                padding: 15px 0;
-                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-                border-top: 1px solid #eee;
-                z-index: 1001;
-            }
-            
-            .mobile-nav-link {
-                 text-decoration: none;
-                 color: var(--cor-texto);
-                 font-weight: 600;
-                 font-size: 0.9rem;
-            }
-            
-            .cart-fab {
-                display: none;
-            }
-            
             .back-to-top {
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
-                bottom: 85px; 
+                bottom: 30px; 
                 right: 20px;
-            }
-
-            .back-to-top.at-footer {
-                transform: translateY(-70px);
-            }
-
-            main {
-                padding-bottom: 0; /* Removido pois o padding agora está no body */
             }
             
             .contato-botoes {
@@ -1040,6 +1031,9 @@
     <main>
         <section class="hero-section" id="home">
             <div class="hero-overlay"></div>
+            <a href="#contato" class="hero-contact-icon">
+                <i class="fas fa-comment-dots"></i>
+            </a>
             <video class="hero-video" autoplay loop muted playsinline>
                 <source src="/images/videoinicial.mp4" type="video/mp4">
                 Seu navegador não suporta vídeos.
@@ -1137,16 +1131,6 @@
     
     <div id="confirmation-toast" class="confirmation-toast"></div>
 
-    <div class="cart-fab">
-        <i class="fas fa-shopping-cart"></i>
-        <div class="cart-count">0</div>
-    </div>
-    <nav class="mobile-nav">
-        <a href="#produtos" class="mobile-nav-link">Produtos</a>
-        <a href="#contato" class="mobile-nav-link">Contato</a>
-    </nav>
-
-
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -1169,8 +1153,8 @@
         ];
         
         const coberturas = [
-            { id: 20, nome: 'Ganashe de Chocolate Laka', preco: 12.60, descricao: 'Ganashe de chocolate ', imagem: 'images/gchocolate.png' },
-            { id: 21, nome: 'Ganashe de Chocolate Branco Laka', preco: 12.60, descricao: 'Ganashe de chocolate Branco', imagem: 'images/gcbranco.png' },
+            { id: 20, nome: 'Ganache de Chocolate Laka', preco: 12.60, descricao: 'Ganache de chocolate ', imagem: 'images/gchocolate.png' },
+            { id: 21, nome: 'Ganache de Chocolate Branco Laka', preco: 12.60, descricao: 'Ganache de chocolate Branco', imagem: 'images/gcbranco.png' },
             { id: 22, nome: 'Porcelana de Leite Ninho', preco: 19.60, descricao: 'Ninho', imagem: 'images/gninho.png' },
             { id: 23, nome: 'Brigadeiro', preco: 17.50, descricao: 'brigadeiro', imagem: 'images/brigadeiro.png' },
             { id: 24, nome: 'Chocolate Intenso', preco: 10.50, descricao: 'chocolate intenso', imagem: 'images/brigadeirointenso.png' },
@@ -1414,8 +1398,11 @@
                         <span>Adicione produtos para vê-los aqui!</span>
                     </div>
                 `;
+                 document.querySelector('.cart-footer').style.display = 'none';
                 return;
             }
+
+             document.querySelector('.cart-footer').style.display = 'block';
 
             cartItemsContainer.innerHTML = '';
             cart.forEach(item => {
@@ -1602,11 +1589,12 @@
         });
         
         cartIconDesktop.addEventListener('click', toggleCart);
-        cartIconMobile.addEventListener('click', toggleCart);
+        // cartIconMobile.addEventListener('click', toggleCart);
         closeCartBtn.addEventListener('click', toggleCart);
         overlay.addEventListener('click', toggleCart);
         whatsappBtn.addEventListener('click', finalizarPedido);
         window.addEventListener('scroll', handleScroll);
+        
         
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
