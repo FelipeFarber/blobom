@@ -13,8 +13,8 @@
 
     <style>
         /* ========================================
-         CSS Reset & Variáveis Globais
-         ========================================
+          CSS Reset & Variáveis Globais
+          ========================================
         */
         :root {
             --cor-primaria: #a1623e;
@@ -96,8 +96,8 @@
         }
         
         /* ========================================
-         Tela de Loading
-         ========================================
+          Tela de Loading
+          ========================================
         */
         .loading-screen {
             position: fixed;
@@ -139,8 +139,8 @@
         }
 
         /* ========================================
-         Header
-         ========================================
+          Header
+          ========================================
         */
         .header {
             position: fixed;
@@ -275,8 +275,8 @@
         }
         
         /* ========================================
-         Seção Hero (Vídeo)
-         ========================================
+          Seção Hero (Vídeo)
+          ========================================
         */
         .hero-section {
             height: 100vh;
@@ -387,8 +387,8 @@
         }
         
         /* ========================================
-         Tabs de Produtos
-         ========================================
+          Tabs de Produtos
+          ========================================
         */
         .tabs-container {
             display: flex;
@@ -437,8 +437,8 @@
         }
 
         /* ========================================
-         Produtos & Coberturas
-         ========================================
+          Produtos & Coberturas
+          ========================================
         */
         .produtos-section {
             padding-top: 80px;
@@ -549,14 +549,15 @@
 
         .produto-info h3 {
             font-size: 1.4rem;
-            margin-bottom: 5px;
+            margin-bottom: 10px; /* Aumentado o espaçamento */
         }
 
         .produto-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 15px; /* Aumentado o espaçamento */
+            min-height: 40px; /* Garante altura mínima mesmo sem a linha de texto */
         }
 
         .tag {
@@ -593,6 +594,7 @@
         }
 
         .produto-detalhes {
+            /* Este seletor foi mantido para compatibilidade, mas está sem uso direto */
             font-size: 0.9rem;
             color: #777;
             margin-bottom: 15px;
@@ -668,8 +670,8 @@
         }
         
         /* ========================================
-         Contato / Sobre
-         ========================================
+          Contato / Sobre
+          ========================================
         */
         .contato-section {
             padding: 80px 0;
@@ -793,8 +795,8 @@
         }
 
         /* ========================================
-         Footer
-         ========================================
+          Footer
+          ========================================
         */
         .footer {
             background-color: var(--cor-texto);
@@ -804,8 +806,8 @@
         }
         
         /* ========================================
-         Carrinho Lateral
-         ========================================
+          Carrinho Lateral
+          ========================================
         */
         .cart-sidebar {
             position: fixed;
@@ -1107,8 +1109,8 @@
         }
         
         /* ========================================
-         Responsividade
-         ========================================
+          Responsividade
+          ========================================
         */
         @media (min-width: 769px) {
             .hero-contact-icon {
@@ -1235,12 +1237,12 @@
 
              <div id="tab-bolos" class="tab-content active">
                  <div id="bolos-grid" class="produtos-grid">
-                     <!-- Bolos serão inseridos aqui pelo JS -->
+                      <!-- Bolos serão inseridos aqui pelo JS -->
                  </div>
              </div>
              <div id="tab-paes" class="tab-content">
                  <div id="paes-grid" class="produtos-grid">
-                     <!-- Pães serão inseridos aqui pelo JS -->
+                      <!-- Pães serão inseridos aqui pelo JS -->
                  </div>
              </div>
         </section>
@@ -1248,7 +1250,7 @@
         <section id="coberturas" class="produtos-section container" style="display: none;">
              <div class="cobertura-status"></div>
              <div id="coberturas-grid" class="produtos-grid">
-                 <!-- Coberturas serão inseridas aqui pelo JS -->
+                  <!-- Coberturas serão inseridas aqui pelo JS -->
              </div>
         </section>
 
@@ -1257,16 +1259,16 @@
             <div class="container contato-wrapper">
                 <h2 class="section-title">Conheça quem faz</h2>
                  <div class="criadores">
-                     <div class="criador-card">
-                         <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
-                         <h3 class="criador-nome">Felipe</h3>
-                         <p class="criador-funcao">Criador BlôBom</p>
-                     </div>
-                     <div class="criador-card">
-                         <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
-                         <h3 class="criador-nome">Karine</h3>
-                         <p class="criador-funcao">Criadora BlôBom</p>
-                     </div>
+                      <div class="criador-card">
+                           <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
+                           <h3 class="criador-nome">Felipe</h3>
+                           <p class="criador-funcao">Criador BlôBom</p>
+                      </div>
+                      <div class="criador-card">
+                           <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
+                           <h3 class="criador-nome">Karine</h3>
+                           <p class="criador-funcao">Criadora BlôBom</p>
+                      </div>
                  </div>
 
                 <div class="contato-links">
@@ -1328,19 +1330,19 @@
         // Dados (com caminhos originais das imagens)
         // ===================================
         const produtos = [
-            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
-            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], tags: ['Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 15, nome: 'Fubá Cremoso', tipo: 'Bolo', imagem: 'images/bolofuba.png', novidade: true, contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido', 'Cremoso'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 26.00}, {nome: '350g', preco: 15.00}] },
-            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, contem: ['Amendoim'], tags: ['Contém Amendoim'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
-            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
-            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
-            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
-            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten,Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], indisponivel: false, novidade: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
+            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', tags: ['Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 15, nome: 'Fubá Cremoso', tipo: 'Bolo', imagem: 'images/bolofuba.png', novidade: true, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido', 'Cremoso'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 26.00}, {nome: '350g', preco: 15.00}] },
+            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, tags: ['Contém Amendoim', 'Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
+            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
+            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
+            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], indisponivel: false, novidade: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
         ];
         
         const coberturas = [
@@ -1403,13 +1405,13 @@
                 buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>Indisponível</button></div>`;
             } else if (produto.permiteCobertura) {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                      <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
-                      <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
-                     </div>`;
+                                   <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+                                   <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
+                                  </div>`;
             } else {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                      <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
-                     </div>`;
+                                   <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
+                                  </div>`;
             }
             
             let overlayTagsHtml = '<div class="visual-tags-container">';
@@ -1439,7 +1441,6 @@
                 infoTagsHtml += '</div>';
             }
 
-            const detalhesHtml = `<p>Contém: ${produto.contem.join(', ')}</p>`;
             const initialPrice = produto.tamanhos[0].preco.toFixed(2).replace('.', ',');
 
             card.innerHTML = `
@@ -1450,7 +1451,6 @@
                 <div class="produto-info">
                     <h3>${produto.nome}</h3>
                     ${infoTagsHtml}
-                    <div class="produto-detalhes">${detalhesHtml}</div>
                     ${sizeSelectorHtml}
                     <p class="produto-preco">R$ ${initialPrice}</p>
                     ${buttonsHtml}
@@ -1499,7 +1499,7 @@
             coberturasSection.style.display = 'none';
             
              coberturas.forEach(cobertura => {
-                  coberturasGrid.appendChild(createCoberturaCard(cobertura));
+                   coberturasGrid.appendChild(createCoberturaCard(cobertura));
             });
         }
         
@@ -1733,7 +1733,7 @@
         // ===================================
         window.addEventListener('load', () => {
              setTimeout(() => {
-                  loadingScreen.classList.add('hidden');
+                   loadingScreen.classList.add('hidden');
             }, 500);
         });
         
@@ -1779,30 +1779,30 @@
         
         coberturasGrid.addEventListener('click', (e) => {
              const target = e.target.closest('button.btn-adicionar-cobertura');
-             if (!target || !produtoSendoPersonalizado) return;
-             
-             const coberturaId = parseInt(target.dataset.id);
-             const cobertura = coberturas.find(c => c.id === coberturaId);
-             
-             adicionarAoCarrinho(produtoSendoPersonalizado, produtoSendoPersonalizado.tamanhoSelecionado, cobertura);
-             resetarPersonalizacao(true);
+              if (!target || !produtoSendoPersonalizado) return;
+              
+              const coberturaId = parseInt(target.dataset.id);
+              const cobertura = coberturas.find(c => c.id === coberturaId);
+              
+              adicionarAoCarrinho(produtoSendoPersonalizado, produtoSendoPersonalizado.tamanhoSelecionado, cobertura);
+              resetarPersonalizacao(true);
         });
         
         cartItemsContainer.addEventListener('click', e => {
-             const target = e.target.closest('button');
-             if(!target) return;
-             
-             const id = target.dataset.id;
+              const target = e.target.closest('button');
+              if(!target) return;
+              
+              const id = target.dataset.id;
 
-             if(target.classList.contains('quantity-increase')) {
-                 changeQuantity(id, 1);
-             }
-             if(target.classList.contains('quantity-decrease')) {
-                 changeQuantity(id, -1);
-             }
-             if(target.classList.contains('btn-remover')) {
-                 removerItemDoCarrinho(id);
-             }
+              if(target.classList.contains('quantity-increase')) {
+                   changeQuantity(id, 1);
+              }
+              if(target.classList.contains('quantity-decrease')) {
+                   changeQuantity(id, -1);
+              }
+              if(target.classList.contains('btn-remover')) {
+                   removerItemDoCarrinho(id);
+              }
         });
         
         cartIconWrapper.addEventListener('click', toggleCart);
@@ -1838,3 +1838,4 @@
     </script>
 </body>
 </html>
+```
