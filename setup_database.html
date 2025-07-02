@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup do Banco de Dados Blôbom</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: #f0e4d7; }
+        button { font-size: 1.2rem; padding: 15px 30px; border-radius: 8px; border: none; background-color: #a1623e; color: white; cursor: pointer; transition: background-color 0.3s ease; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        button:hover:not(:disabled) { background-color: #e88c52; }
+        #status { margin-top: 20px; font-size: 1.1rem; color: #4f3b31; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Setup do Banco de Dados Blôbom</h1>
+    <p>Clique no botão abaixo para cadastrar todos os produtos e tamanhos no seu Firestore.</p>
+    <button id="setup-btn">Cadastrar Produtos no Firebase</button>
+    <div id="status"></div>
+
+    <script type="module">
+        // Importar funções do SDK do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // ===================================
+        // Configuração do Firebase
+        // ===================================
+        // COLE AQUI O OBJETO DE CONFIGURAÇÃO DO FIREBASE
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_AUTH_DOMAIN",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_STORAGE_BUCKET",
+            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+            appId: "SEU_APP_ID"
+        };
+
+        // Inicializar o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ===================================
+        // Dados dos Produtos
+        // ===================================
+        const produtosParaCadastrar = [
+            { id: 'chocolate', nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten', 'Lactose'], permite_cobertura: true, novidade: false, tamanhos: [{nome: '700g', preco: 25.00, quantidade_estoque: 10}, {nome: '350g', preco: 14.00, quantidade_estoque: 15}]},
+            { id: 'cenoura', nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', contem: ['Glúten', 'Lactose'], permite_cobertura: true, novidade: true, tamanhos: [{nome: '700g', preco: 25.00, quantidade_estoque: 8}, {nome: '350g', preco: 14.00, quantidade_estoque: 12}] },
+            { id: 'banana', nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], permite_cobertura: true, novidade: false, tamanhos: [{nome: '700g', preco: 25.00, quantidade_estoque: 10}, {nome: '350g', preco: 14.00, quantidade_estoque: 15}] },
+            { id: 'fuba-goiabada', nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho', 'Lactose'], permite_cobertura: true, novidade: false, tamanhos: [{nome: '700g', preco: 27.00, quantidade_estoque: 7}, {nome: '350g', preco: 15.00, quantidade_estoque: 10}] },
+            { id: 'fuba', nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', contem: ['Derivado de milho', 'Lactose'], permite_cobertura: true, novidade: false, tamanhos: [{nome: '700g', preco: 25.00, quantidade_estoque: 10}, {nome: '350g', preco: 14.00, quantidade_estoque: 15}] },
+            { id: 'pacoca', nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', contem: ['Amendoim'], permite_cobertura: true, novidade: true, tamanhos: [{nome: '700g', preco: 27.00, quantidade_estoque: 8}, {nome: '350g', preco: 15.00, quantidade_estoque: 12}] },
+            { id: 'milho', nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho', 'Lactose'], permite_cobertura: true, novidade: false, tamanhos: [{nome: '700g', preco: 27.00, quantidade_estoque: 9}, {nome: '350g', preco: 15.00, quantidade_estoque: 14}] },
+            { id: 'arroz', nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', contem: ['Glúten', 'Lactose'], permite_cobertura: true, novidade: true, tamanhos: [{nome: '700g', preco: 30.00, quantidade_estoque: 6}, {nome: '350g', preco: 16.00, quantidade_estoque: 10}] },
+            { id: 'pao-tradicional', nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten', 'Lactose'], permite_cobertura: false, novidade: false, tamanhos: [{nome: '700g', preco: 20.00, quantidade_estoque: 20}, {nome: '400g', preco: 13.00, quantidade_estoque: 25}] },
+            { id: 'pao-integral', nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', contem: ['Glúten', 'Lactose'], permite_cobertura: false, novidade: false, tamanhos: [{nome: '700g', preco: 25.00, quantidade_estoque: 18}, {nome: '400g', preco: 15.00, quantidade_estoque: 22}] },
+            { id: 'pao-calabresa', nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', contem: ['Glúten', 'Lactose'], permite_cobertura: false, novidade: false, tamanhos: [{nome: '700g', preco: 35.00, quantidade_estoque: 10}, {nome: '400g', preco: 18.00, quantidade_estoque: 15}] },
+            { id: 'pao-queijo-coalho', nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten','Lactose'], permite_cobertura: false, novidade: false, tamanhos: [{nome: '700g', preco: 35.00, quantidade_estoque: 10}, {nome: '400g', preco: 18.00, quantidade_estoque: 15}] }
+        ];
+
+        // ===================================
+        // Lógica do Script
+        // ===================================
+        const setupBtn = document.getElementById('setup-btn');
+        const statusDiv = document.getElementById('status');
+
+        async function popularBancoDeDados() {
+            setupBtn.disabled = true;
+            statusDiv.textContent = 'Cadastrando produtos, por favor aguarde...';
+
+            try {
+                // Usando um batch para fazer todas as escritas de uma vez (mais eficiente)
+                const batch = writeBatch(db);
+
+                produtosParaCadastrar.forEach(produto => {
+                    // Cria uma referência para um novo documento na coleção 'produtos' com um ID específico
+                    const docRef = doc(db, "produtos", produto.id);
+                    
+                    // Separa os dados do produto dos tamanhos para salvar
+                    const { tamanhos, ...dadosDoProduto } = produto;
+                    
+                    // Adiciona a operação de escrita para os dados principais do produto
+                    batch.set(docRef, dadosDoProduto);
+
+                    // Para cada tamanho, cria um documento em uma subcoleção 'tamanhos'
+                    if(tamanhos && tamanhos.length > 0) {
+                        tamanhos.forEach(tamanho => {
+                            const tamanhoDocRef = doc(db, "produtos", produto.id, "tamanhos", tamanho.nome);
+                            batch.set(tamanhoDocRef, tamanho);
+                        });
+                    }
+                });
+
+                // Executa todas as operações em lote
+                await batch.commit();
+
+                statusDiv.style.color = 'green';
+                statusDiv.textContent = 'Sucesso! Todos os produtos foram cadastrados no Firestore.';
+
+            } catch (error) {
+                console.error("Erro ao cadastrar produtos: ", error);
+                statusDiv.style.color = 'red';
+                statusDiv.textContent = `Erro ao cadastrar: ${error.message}`;
+            } finally {
+                setupBtn.disabled = false;
+            }
+        }
+
+        setupBtn.addEventListener('click', popularBancoDeDados);
+    ;
+    </script>
+</body>
+</html>

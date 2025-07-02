@@ -13,15 +13,15 @@
 
     <style>
         /* ========================================
-        CSS Reset & Variáveis Globais
-        ========================================
+         CSS Reset & Variáveis Globais
+         ========================================
         */
         :root {
             --cor-primaria: #a1623e;
             --cor-secundaria: #f0e4d7;
             --cor-destaque: #e88c52;
             --cor-sucesso: #28a745;
-            --cor-fundo: #f0f08a;
+            --cor-fundo: #f0f08a; /* Cor original restaurada */
             --cor-texto: #4f3b31;
             --cor-branco: #ffffff;
             --sombra: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -33,7 +33,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Remove o destaque de toque no mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         html {
@@ -57,6 +57,7 @@
             font-family: 'Montserrat', sans-serif;
             cursor: pointer;
             border: none;
+            -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
         }
         
@@ -95,8 +96,8 @@
         }
         
         /* ========================================
-        Tela de Loading
-        ========================================
+         Tela de Loading
+         ========================================
         */
         .loading-screen {
             position: fixed;
@@ -119,7 +120,13 @@
 
         .loading-logo {
             width: 350px;
+            -webkit-animation: paused-spin 3s ease-in-out infinite;
             animation: paused-spin 3s ease-in-out infinite;
+        }
+
+        @-webkit-keyframes paused-spin {
+            0%, 100% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+            50% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
         }
 
         @keyframes paused-spin {
@@ -132,8 +139,8 @@
         }
 
         /* ========================================
-        Header
-        ========================================
+         Header
+         ========================================
         */
         .header {
             position: fixed;
@@ -143,13 +150,14 @@
             height: var(--header-altura);
             background-color: #c9863af7;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             box-shadow: var(--sombra);
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
+        
         .header-content {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -169,6 +177,12 @@
         }
         .header-main-logo {
             height: 90px;
+            -webkit-transition: -webkit-transform 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+        .header-main-logo:hover {
+            -webkit-transform: rotate(15deg);
+            transform: rotate(15deg);
         }
 
         .header-right {
@@ -196,10 +210,13 @@
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
             width: 0;
             height: 2px;
             background-color: var(--cor-secundaria);
+            -webkit-transition: width 0.3s ease;
             transition: width 0.3s ease;
         }
         
@@ -215,7 +232,14 @@
         }
         
         .cart-icon-wrapper.pulse {
+            -webkit-animation: cartPulse 0.5s ease;
             animation: cartPulse 0.5s ease;
+        }
+
+        @-webkit-keyframes cartPulse {
+            0% { -webkit-transform: scale(1); transform: scale(1); }
+            50% { -webkit-transform: scale(1.2); transform: scale(1.2); }
+            100% { -webkit-transform: scale(1); transform: scale(1); }
         }
 
         @keyframes cartPulse {
@@ -239,17 +263,20 @@
             font-size: 0.8rem;
             font-weight: bold;
             border: 2px solid #c9863af7;
+            -webkit-transform: scale(0);
             transform: scale(0);
-            transition: transform 0.3s ease;
+            -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         .cart-count.active {
+            -webkit-transform: scale(1);
             transform: scale(1);
         }
         
         /* ========================================
-        Seção Hero (Vídeo)
-        ========================================
+         Seção Hero (Vídeo)
+         ========================================
         */
         .hero-section {
             height: 100vh;
@@ -266,9 +293,10 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100%;
-            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
             object-fit: cover;
+            -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
             z-index: -2;
         }
@@ -287,8 +315,10 @@
             z-index: 1;
             max-width: 800px;
             padding: 20px;
+            -webkit-animation: fadeInDown 1s ease-out;
+            animation: fadeInDown 1s ease-out;
         }
-        
+
         .hero-contact-icon {
             position: absolute;
             top: 150px;
@@ -304,14 +334,25 @@
             font-size: 1.2rem;
             text-decoration: none;
             backdrop-filter: blur(5px);
+            -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
         }
         
         .hero-contact-icon:hover {
             background-color: rgba(255, 255, 255, 0.7);
+            -webkit-transform: scale(1.1);
             transform: scale(1.1);
         }
+        
+        @-webkit-keyframes fadeInDown {
+            from { opacity: 0; -webkit-transform: translateY(-20px); transform: translateY(-20px); }
+            to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+        }
 
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .hero-content h1 {
             font-size: 4rem;
@@ -334,18 +375,20 @@
             color: var(--cor-branco);
             text-decoration: none;
             font-weight: 600;
+            -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
             box-shadow: var(--sombra-forte);
         }
 
         .hero-cta:hover {
             background-color: var(--cor-primaria);
+            -webkit-transform: translateY(-3px) scale(1.05);
             transform: translateY(-3px) scale(1.05);
         }
         
         /* ========================================
-        Tabs de Produtos
-        ========================================
+         Tabs de Produtos
+         ========================================
         */
         .tabs-container {
             display: flex;
@@ -381,7 +424,12 @@
         }
         .tab-content.active {
             display: block;
+            -webkit-animation: fadeInTab 0.5s ease;
             animation: fadeInTab 0.5s ease;
+        }
+        @-webkit-keyframes fadeInTab {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes fadeInTab {
             from { opacity: 0; }
@@ -389,11 +437,11 @@
         }
 
         /* ========================================
-        Produtos & Coberturas
-        ========================================
+         Produtos & Coberturas
+         ========================================
         */
         .produtos-section {
-            padding-top: 80px; /* Ajuste para dar espaço após a seção de vídeo */
+            padding-top: 80px;
             padding-bottom: 80px;
         }
 
@@ -410,11 +458,13 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            -webkit-transition: -webkit-transform 0.3s ease, box-shadow 0.3s ease;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 3px solid transparent;
         }
 
         .produto-card:hover, .cobertura-card:hover {
+            -webkit-transform: translateY(-8px);
             transform: translateY(-8px);
             box-shadow: var(--sombra-forte);
         }
@@ -431,16 +481,52 @@
             background-color: #f0f0f0;
         }
 
-        .tag-novidade {
+        .visual-tags-container {
             position: absolute;
             top: 15px;
             right: 15px;
-            background-color: var(--cor-destaque);
-            color: var(--cor-branco);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        .tag-visual {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
+            color: var(--cor-branco);
+            opacity: 0;
+            -webkit-transform: translateX(20px);
+            transform: translateX(20px);
+            -webkit-animation: popIn 0.5s 0.2s ease-out forwards;
+            animation: popIn 0.5s 0.2s ease-out forwards;
+        }
+
+        @-webkit-keyframes popIn {
+            from { opacity: 0; -webkit-transform: translateX(20px); transform: translateX(20px); }
+            to { opacity: 1; -webkit-transform: translateX(0); transform: translateX(0); }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .tag-novidade {
+            background-color: var(--cor-destaque);
+        }
+
+        .tag-adjetivo {
+            background-color: var(--cor-primaria);
         }
 
         .produto-imagem {
@@ -451,6 +537,7 @@
         
         .produto-card.indisponivel {
             opacity: 0.7;
+            filter: grayscale(80%);
         }
 
         .produto-info {
@@ -462,7 +549,47 @@
 
         .produto-info h3 {
             font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .produto-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-bottom: 10px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.gluten {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .tag.lactose {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .tag.amendoim {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .tag.milho {
+            background-color: #ffefc1;
+            color: #664d03;
+            border: 1px solid #ffde7a;
         }
 
         .produto-detalhes {
@@ -517,12 +644,13 @@
             font-weight: 600;
         }
         .btn-personalizar {
-             background-color: var(--cor-destaque);
+            background-color: var(--cor-destaque);
         }
 
         .btn-adicionar:hover, .btn-personalizar:hover, .btn-adicionar-cobertura:hover {
             opacity: 0.8;
-            transform: scale(1.05);
+            -webkit-transform: scale(1.02);
+            transform: scale(1.02);
         }
 
         .btn-adicionar i, .btn-personalizar i, .btn-adicionar-cobertura i {
@@ -540,41 +668,39 @@
         }
         
         /* ========================================
-        Contato / Sobre
-        ========================================
+         Contato / Sobre
+         ========================================
         */
         .contato-section {
             padding: 80px 0;
             background-color: var(--cor-secundaria);
-            position: relative; /* Para posicionar as imagens */
-            overflow: hidden; /* Esconde qualquer parte das imagens que saia da seção */
+            position: relative;
+            overflow: hidden;
         }
         
         .contato-logo-left, .contato-logo-right {
             position: absolute;
-            top: 10px; /* Ajuste a distância do topo conforme necessário */
-            width: 100px; /* Ajuste o tamanho conforme necessário */
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            width: 150px; 
             height: auto;
-            opacity: 0.3; /* Reduz a opacidade para não distrair */
-            animation: rotate 10s linear infinite;
+            opacity: 0.08;
+            -webkit-animation: rotate 20s linear infinite;
+            animation: rotate 20s linear infinite;
         }
         
-        .contato-logo-left {
-            left: 10px; /* Ajuste a distância da esquerda */
-        }
+        .contato-logo-left { left: -50px; }
+        .contato-logo-right { right: -50px; }
         
-        .contato-logo-right {
-            right: 10px; /* Ajuste a distância da direita */
-            transform: scaleX(-1); /* Opcional: espelha a imagem */
+        @-webkit-keyframes rotate {
+            from { -webkit-transform: translateY(-50%) rotate(0deg); transform: translateY(-50%) rotate(0deg); }
+            to { -webkit-transform: translateY(-50%) rotate(360deg); transform: translateY(-50%) rotate(360deg); }
         }
-        
+
         @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: translateY(-50%) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(360deg); }
         }
 
         .contato-wrapper {
@@ -582,7 +708,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            position: relative; /* Garante que o conteúdo fique acima das imagens */
+            position: relative;
             z-index: 1;
         }
         
@@ -606,6 +732,12 @@
             margin: 0 auto 15px;
             border: 4px solid var(--cor-branco);
             box-shadow: var(--sombra-forte);
+            -webkit-transition: -webkit-transform 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+        .criador-card:hover .criador-foto {
+            -webkit-transform: scale(1.05);
+            transform: scale(1.05);
         }
 
         .criador-nome {
@@ -636,6 +768,7 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
+            -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
         }
         
@@ -654,13 +787,14 @@
         }
 
         .botao-contato:hover {
+            -webkit-transform: translateY(-3px) scale(1.05);
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--sombra-forte);
         }
 
         /* ========================================
-        Footer
-        ========================================
+         Footer
+         ========================================
         */
         .footer {
             background-color: var(--cor-texto);
@@ -670,8 +804,8 @@
         }
         
         /* ========================================
-        Carrinho Lateral
-        ========================================
+         Carrinho Lateral
+         ========================================
         */
         .cart-sidebar {
             position: fixed;
@@ -680,16 +814,19 @@
             width: 100%;
             max-width: 400px;
             height: 100%;
-            background-color: var(--cor-secundaria);
+            background-color: var(--cor-fundo);
             box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            -webkit-transform: translateX(100%);
             transform: translateX(100%);
+            -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
             transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 1050; /* Aumentado */
+            z-index: 1050;
             display: flex;
             flex-direction: column;
         }
 
         .cart-sidebar.active {
+            -webkit-transform: translateX(0);
             transform: translateX(0);
         }
 
@@ -716,26 +853,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
         }
 
         .close-cart:hover {
             background-color: var(--cor-destaque);
             color: var(--cor-branco);
+            -webkit-transform: rotate(90deg);
             transform: rotate(90deg);
         }
         
         .cart-items {
             flex-grow: 1;
             overflow-y: auto;
-            overflow-x: hidden; /* Evita a barra de rolagem horizontal durante a animação */
+            overflow-x: hidden;
             padding: 20px;
         }
         
-        .cart-sidebar .cart-footer {
-            padding-bottom: 100px; /* Espaço para a navegação mobile */
-        }
-
         .cart-item {
             display: flex;
             gap: 15px;
@@ -744,23 +879,18 @@
         }
 
         .cart-item.removing {
+            -webkit-animation: removeItemAnimation 0.6s ease forwards;
             animation: removeItemAnimation 0.6s ease forwards;
         }
 
+        @-webkit-keyframes removeItemAnimation {
+            from { opacity: 1; -webkit-transform: translateX(0); transform: translateX(0); max-height: 120px; }
+            to { opacity: 0; -webkit-transform: translateX(100%); transform: translateX(100%); max-height: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 0; }
+        }
+
         @keyframes removeItemAnimation {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-                max-height: 120px;
-            }
-            to {
-                opacity: 0;
-                transform: translateX(100%);
-                max-height: 0;
-                padding-top: 0;
-                padding-bottom: 0;
-                margin-bottom: 0;
-            }
+            from { opacity: 1; transform: translateX(0); max-height: 120px; }
+            to { opacity: 0; transform: translateX(100%); max-height: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 0; }
         }
 
         .cart-item img {
@@ -804,6 +934,7 @@
             height: 25px;
             border-radius: 50%;
             background-color: var(--cor-branco);
+            border: 1px solid var(--cor-secundaria);
         }
         
         .btn-remover {
@@ -832,7 +963,7 @@
         .cart-footer {
             padding: 20px;
             border-top: 1px solid var(--cor-primaria);
-            background-color: var(--cor-secundaria);
+            background-color: var(--cor-fundo);
         }
         
         .delivery-info {
@@ -844,21 +975,21 @@
             border: 2px solid var(--cor-destaque);
             font-size: 0.9rem;
             line-height: 1.4;
+            -webkit-animation: pulse-border 2.5s infinite;
             animation: pulse-border 2.5s infinite;
         }
         
-        @keyframes pulse-border {
-            0% {
-                box-shadow: 0 0 0 0 rgba(232, 140, 82, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(232, 140, 82, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(232, 140, 82, 0);
-            }
+        @-webkit-keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(232, 140, 82, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0); }
         }
 
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(232, 140, 82, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0); }
+        }
 
         .delivery-info i {
             margin-right: 8px;
@@ -885,7 +1016,7 @@
             color: var(--cor-branco);
             font-size: 1.1rem;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .whatsapp-btn:hover {
@@ -900,9 +1031,10 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
-            z-index: 1040; /* Abaixo do carrinho */
+            z-index: 1040;
             opacity: 0;
             visibility: hidden;
+            -webkit-transition: opacity 0.4s ease, visibility 0.4s;
             transition: opacity 0.4s ease, visibility 0.4s;
         }
         
@@ -926,9 +1058,11 @@
             align-items: center;
             font-size: 1.2rem;
             box-shadow: var(--sombra-forte);
+            -webkit-transition: all 0.4s ease;
             transition: all 0.4s ease;
             opacity: 0;
             visibility: hidden;
+            -webkit-transform: translateY(20px);
             transform: translateY(20px);
             z-index: 1002;
         }
@@ -936,76 +1070,56 @@
         .back-to-top.visible {
             opacity: 1;
             visibility: visible;
+            -webkit-transform: translateY(0);
             transform: translateY(0);
         }
 
         .back-to-top:hover {
             background-color: var(--cor-destaque);
+            -webkit-transform: scale(1.1);
             transform: scale(1.1);
         }
         
-        /* ========================================
-         Animação de Confirmação (Toast)
-        ========================================
-        */
+        /* Animação de Confirmação (Toast) */
         .confirmation-toast {
             position: fixed;
+            bottom: 20px;
             left: 50%;
+            -webkit-transform: translate(-50%, 150%);
             transform: translate(-50%, 150%);
             background-color: var(--cor-sucesso);
             color: white;
             padding: 15px 30px;
             border-radius: 50px;
             box-shadow: var(--sombra-forte);
-            z-index: 1060; /* Acima de tudo */
+            z-index: 1060;
+            -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
             opacity: 0;
             pointer-events: none;
-            /* white-space: nowrap; REMOVIDO PARA PERMITIR QUEBRA DE LINHA */
+            text-align: center;
         }
 
         .confirmation-toast.show {
+            -webkit-transform: translate(-50%, 0);
             transform: translate(-50%, 0);
             opacity: 1;
         }
         
         /* ========================================
-        Responsividade
-        ========================================
+         Responsividade
+         ========================================
         */
         @media (min-width: 769px) {
             .hero-contact-icon {
                 display: none;
             }
-            .back-to-top {
-                bottom: 30px;
-                right: 30px;
-            }
-            .confirmation-toast {
-                bottom: 20px;
-            }
         }
-        
+
         @media (max-width: 768px) {
-            body {
-                padding-bottom: 20px; /* Garante espaço para o footer não ser cortado */
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-
-            h2.section-title { font-size: 2.2rem; }
-
-            /* --- INÍCIO: AJUSTES DO HEADER PARA MOBILE --- */
             .header {
                 --header-altura: 80px;
-                height: var(--header-altura);
             }
-            
             .header-content {
                 display: flex;
                 justify-content: space-between;
@@ -1014,93 +1128,55 @@
                 padding: 0 15px;
                 position: relative;
             }
-
             .header-left, .header-right {
                 display: flex;
                 align-items: center;
             }
-            
             .header-center {
                 position: absolute;
                 left: 50%;
+                -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
-                display: flex;
-                align-items: center;
             }
-            
-            .header-name-logo {
-                height: 40px;
-            }
+            .header-name-logo { height: 40px; }
+            .header-main-logo { height: 65px; }
+            .nav-menu { display: none; }
 
-            .header-main-logo {
-                height: 65px;
-            }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            h2.section-title { font-size: 2.2rem; }
 
-            .nav-menu {
-                display: none;
-            }
-            /* --- FIM: AJUSTES DO HEADER PARA MOBILE --- */
-            
             .produtos-grid {
                 grid-template-columns: 1fr;
                 max-width: 350px;
                 margin: 0 auto;
             }
-            .produto-card .produto-info {
-                padding: 15px;
-            }
+            .produto-card .produto-info { padding: 15px; }
+            .produto-card h3 { font-size: 1.1rem; }
+            .cobertura-card .produto-info { padding: 10px; }
+            .cobertura-card h3 { font-size: 0.9rem; margin-bottom: 5px; }
+            .cobertura-card .produto-detalhes { font-size: 0.8rem; min-height: 25px; }
+            .cobertura-card .produto-preco { font-size: 1rem; }
+            .cobertura-card .btn-adicionar-cobertura { padding: 8px; font-size: 0.8rem; }
 
-            .produto-card h3 {
-                font-size: 1.1rem;
-            }
+            .contato-botoes { flex-direction: column; }
+            .contato-logo-left, .contato-logo-right { display: none; }
+
+            .cart-sidebar { max-width: 90%; }
             
-            .cobertura-card .produto-info {
-                padding: 10px;
-            }
-
-            .cobertura-card h3 {
-                font-size: 0.9rem;
-                margin-bottom: 5px;
-            }
-
-            .cobertura-card .produto-detalhes {
-                font-size: 0.8rem;
-                min-height: 25px;
-            }
-
-            .cobertura-card .produto-preco {
-                font-size: 1rem;
-            }
-
-            .cobertura-card .btn-adicionar-cobertura {
-                padding: 8px;
-                font-size: 0.8rem;
-            }
-
-
             .back-to-top {
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
                 font-size: 1rem;
-                bottom: 20px; 
+                bottom: 20px;
                 right: 20px;
             }
-            
-            .contato-botoes {
-                flex-direction: column;
-            }
 
-            .cart-sidebar {
-                max-width: 90%;
-            }
-            
             .confirmation-toast {
                 width: 90%;
-                text-align: center;
-                bottom: 150px;
+                bottom: 20px;
             }
         }
-
     </style>
 </head>
 <body>
@@ -1159,18 +1235,21 @@
 
              <div id="tab-bolos" class="tab-content active">
                  <div id="bolos-grid" class="produtos-grid">
-                     </div>
+                     <!-- Bolos serão inseridos aqui pelo JS -->
+                 </div>
              </div>
              <div id="tab-paes" class="tab-content">
                  <div id="paes-grid" class="produtos-grid">
-                     </div>
+                     <!-- Pães serão inseridos aqui pelo JS -->
+                 </div>
              </div>
         </section>
         
         <section id="coberturas" class="produtos-section container" style="display: none;">
              <div class="cobertura-status"></div>
              <div id="coberturas-grid" class="produtos-grid">
-                 </div>
+                 <!-- Coberturas serão inseridas aqui pelo JS -->
+             </div>
         </section>
 
         <section id="contato" class="contato-section">
@@ -1193,14 +1272,14 @@
                 <div class="contato-links">
                     <h2>Faça seu pedido</h2>
                     <div class="contato-botoes">
-                         <a href="https://wa.me/5511959426239" target="_blank" class="botao-contato whatsapp">
-                             <i class="fab fa-whatsapp"></i>
-                             Enviar Mensagem
-                         </a>
-                         <a href="https://www.instagram.com/boloteria_bloblom/" target="_blank" class="botao-contato instagram">
-                             <i class="fab fa-instagram"></i>
-                             Siga no instagram!
-                         </a>
+                        <a href="https://wa.me/5511959426239" target="_blank" class="botao-contato whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            Enviar Mensagem
+                        </a>
+                        <a href="https://www.instagram.com/boloteria_bloblom/" target="_blank" class="botao-contato instagram">
+                            <i class="fab fa-instagram"></i>
+                            Siga no instagram!
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1214,10 +1293,11 @@
             <button class="close-cart">&times;</button>
         </div>
         <div class="cart-items">
-            </div>
+            <!-- Itens do carrinho inseridos pelo JS -->
+        </div>
         <div class="cart-footer">
             <div class="delivery-info">
-                <p>Entregas SOMENTE via Uber e 99Entregas. retirada no endereço: Rua Perequê, 621</p>
+                <p><i class="fas fa-motorcycle"></i>Entregas SOMENTE via Uber e 99Entregas. Retirada no endereço: Rua Perequê, 621</p>
             </div>
             <div class="cart-total">
                 <span>Total:</span>
@@ -1230,7 +1310,6 @@
         </div>
     </aside>
     <div class="overlay"></div>
-
 
     <footer class="footer">
         <p>&copy; 2025 BlôBom - Todos os direitos reservados.</p>
@@ -1246,26 +1325,25 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         // ===================================
-        // Dados (com imagens originais)
+        // Dados (com caminhos originais das imagens)
         // ===================================
         const produtos = [
-            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
-            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, contem: ['Amendoim'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, contem: ['Glúten, Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
-            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
-            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
-            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', contem: ['Glúten, Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
-            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten,Lactose'], indisponivel: false, novidade: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
+            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', contem: ['Lactose'], tags: ['Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 15, nome: 'Fubá Cremoso', tipo: 'Bolo', imagem: 'images/bolofuba.png', novidade: true, contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido', 'Cremoso'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 26.00}, {nome: '350g', preco: 15.00}] },
+            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, contem: ['Amendoim'], tags: ['Contém Amendoim'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', contem: ['Derivado de milho, Lactose'], tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
+            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
+            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
+            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', contem: ['Glúten, Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', contem: ['Glúten,Lactose'], tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], indisponivel: false, novidade: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
         ];
         
         const coberturas = [
-            { id: 20, nome: 'Ganache de Chocolate Laka', preco: 12.60, descricao: 'Ganache de chocolate ', imagem: 'images/gchocolate.png' },
-            { id: 21, nome: 'Ganache de Chocolate Branco Laka', preco: 12.60, descricao: 'Ganache de chocolate Branco', imagem: 'images/gcbranco.png' },
             { id: 22, nome: 'Porcelana de Leite Ninho', preco: 19.60, descricao: 'Ninho', imagem: 'images/gninho.png' },
             { id: 23, nome: 'Brigadeiro', preco: 17.50, descricao: 'brigadeiro', imagem: 'images/brigadeiro.png' },
             { id: 24, nome: 'Chocolate Intenso', preco: 10.50, descricao: 'chocolate intenso', imagem: 'images/brigadeirointenso.png' },
@@ -1288,7 +1366,7 @@
         const tabContents = document.querySelectorAll('.tab-content');
         
         const cartSidebar = document.querySelector('.cart-sidebar');
-        const cartIconDesktop = document.querySelector('.header-right .cart-icon-wrapper');
+        const cartIconWrapper = document.querySelector('.cart-icon-wrapper');
         const closeCartBtn = document.querySelector('.close-cart');
         const cartItemsContainer = document.querySelector('.cart-items');
         const cartCountEls = document.querySelectorAll('.cart-count');
@@ -1296,7 +1374,6 @@
         const overlay = document.querySelector('.overlay');
         const whatsappBtn = document.querySelector('.whatsapp-btn');
         const backToTopBtn = document.querySelector('.back-to-top');
-        const footer = document.querySelector('.footer');
 
         let cart = [];
         let produtoSendoPersonalizado = null;
@@ -1321,32 +1398,58 @@
                 sizeSelectorHtml += `</div>`;
             }
 
-            const buttonsDisabled = produto.indisponivel ? 'disabled' : '';
             let buttonsHtml = '';
             if (produto.indisponivel) {
                 buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>Indisponível</button></div>`;
             } else if (produto.permiteCobertura) {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
-                     <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
-                   </div>`;
+                      <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+                      <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
+                     </div>`;
             } else {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
-                   </div>`;
+                      <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
+                     </div>`;
             }
             
-            const tagNovidadeHtml = produto.novidade ? `<div class="tag-novidade">Novidade</div>` : '';
+            let overlayTagsHtml = '<div class="visual-tags-container">';
+            let animationDelay = 0.2;
+            
+            if (produto.adjectiveTags && produto.adjectiveTags.length > 0) {
+                produto.adjectiveTags.forEach(tag => {
+                    overlayTagsHtml += `<div class="tag-visual tag-adjetivo" style="animation-delay: ${animationDelay}s">${tag}</div>`;
+                    animationDelay += 0.15;
+                });
+            } else if (produto.novidade) {
+                overlayTagsHtml += `<div class="tag-visual tag-novidade" style="animation-delay: ${animationDelay}s">Novidade</div>`;
+            }
+            overlayTagsHtml += '</div>';
+
+            let infoTagsHtml = '';
+            if (produto.tags && produto.tags.length > 0) {
+                infoTagsHtml += '<div class="produto-tags">';
+                produto.tags.forEach(tag => {
+                    let tagClass = '';
+                    if (tag.toLowerCase().includes('glúten')) tagClass = 'gluten';
+                    if (tag.toLowerCase().includes('lactose')) tagClass = 'lactose';
+                    if (tag.toLowerCase().includes('amendoim')) tagClass = 'amendoim';
+                    if (tag.toLowerCase().includes('milho')) tagClass = 'milho';
+                    infoTagsHtml += `<span class="tag ${tagClass}">${tag}</span>`;
+                });
+                infoTagsHtml += '</div>';
+            }
+
             const detalhesHtml = `<p>Contém: ${produto.contem.join(', ')}</p>`;
             const initialPrice = produto.tamanhos[0].preco.toFixed(2).replace('.', ',');
 
             card.innerHTML = `
                 <div class="produto-imagem-wrapper">
-                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" onerror="this.src='https://placehold.co/400x300/ccc/ffffff?text=Imagem+Indisponível'">
-                    ${tagNovidadeHtml}
+                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=Bolo+Lindo'">
+                    ${overlayTagsHtml}
                 </div>
                 <div class="produto-info">
                     <h3>${produto.nome}</h3>
+                    ${infoTagsHtml}
                     <div class="produto-detalhes">${detalhesHtml}</div>
                     ${sizeSelectorHtml}
                     <p class="produto-preco">R$ ${initialPrice}</p>
@@ -1361,7 +1464,7 @@
             card.className = 'cobertura-card';
             card.innerHTML = `
                 <div class="produto-imagem-wrapper">
-                    <img src="${cobertura.imagem}" alt="${cobertura.nome}" class="produto-imagem" onerror="this.src='https://placehold.co/400x300/ccc/ffffff?text=Imagem+Indisponível'">
+                    <img src="${cobertura.imagem}" alt="${cobertura.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=Cobertura'">
                 </div>
                 <div class="produto-info">
                     <h3>${cobertura.nome}</h3>
@@ -1396,7 +1499,7 @@
             coberturasSection.style.display = 'none';
             
              coberturas.forEach(cobertura => {
-                 coberturasGrid.appendChild(createCoberturaCard(cobertura));
+                  coberturasGrid.appendChild(createCoberturaCard(cobertura));
             });
         }
         
@@ -1442,7 +1545,7 @@
         // ===================================
         function showConfirmation(message, duration = 3000) {
             clearTimeout(toastTimeout);
-            confirmationToast.textContent = message;
+            confirmationToast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
             confirmationToast.classList.add('show');
             toastTimeout = setTimeout(() => {
                 confirmationToast.classList.remove('show');
@@ -1452,6 +1555,7 @@
         function toggleCart() {
             cartSidebar.classList.toggle('active');
             overlay.classList.toggle('active');
+            document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
         }
 
         function adicionarAoCarrinho(produto, tamanho, cobertura = null) {
@@ -1491,6 +1595,10 @@
             
             updateCart();
             showConfirmation(confirmationMessage);
+            cartIconWrapper.classList.add('pulse');
+            setTimeout(() => {
+                 cartIconWrapper.classList.remove('pulse');
+            }, 500);
         }
 
         function updateCart() {
@@ -1518,13 +1626,13 @@
             cart.forEach(item => {
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item';
-                itemEl.dataset.id = item.id; // Adiciona o data-id para fácil seleção
+                itemEl.dataset.id = item.id;
                 
                 const nomeItem = `${item.nome} (${item.tamanho})`;
                 const coberturaInfo = item.coberturaNome ? `<small>+ ${item.coberturaNome}</small>` : '';
 
                 itemEl.innerHTML = `
-                    <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='https://placehold.co/80x80/ccc/ffffff?text=Img'">
+                    <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='https://placehold.co/80x80/f0e4d7/4f3b31?text=Bolo'">
                     <div class="cart-item-info">
                         <h4>${nomeItem} ${coberturaInfo}</h4>
                         <p class="cart-item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
@@ -1560,7 +1668,7 @@
             if(itemNoCarrinho) {
                 itemNoCarrinho.quantidade += change;
                 if (itemNoCarrinho.quantidade <= 0) {
-                    removerItemDoCarrinho(itemId); // Chama a função com animação
+                    removerItemDoCarrinho(itemId);
                 } else {
                     updateCart();
                 }
@@ -1576,7 +1684,6 @@
                     updateCart();
                 }, { once: true });
             } else {
-                // Fallback para caso o elemento não seja encontrado (improvável)
                 cart = cart.filter(item => item.id.toString() !== itemId.toString());
                 updateCart();
             }
@@ -1605,10 +1712,10 @@
             mensagem += "• Retirada no local: Rua Perequê, 621.\n";
             mensagem += "• Formas de pagamento: PIX ou dinheiro.";
 
-            const numeroWhatsapp = "5511959426239"; // Coloque seu número aqui
+            const numeroWhatsapp = "5511959426239";
             const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
             
-            window.open(linkWhatsapp, '_blank');
+            window.location.href = linkWhatsapp;
         }
 
 
@@ -1626,8 +1733,8 @@
         // ===================================
         window.addEventListener('load', () => {
              setTimeout(() => {
-                 loadingScreen.classList.add('hidden');
-            }, 500); // Reduced time for faster loading in preview
+                  loadingScreen.classList.add('hidden');
+            }, 500);
         });
         
         tabButtons.forEach(button => {
@@ -1694,16 +1801,15 @@
                  changeQuantity(id, -1);
              }
              if(target.classList.contains('btn-remover')) {
-                 removerItemDoCarrinho(id); // Usa a função com animação
+                 removerItemDoCarrinho(id);
              }
         });
         
-        cartIconDesktop.addEventListener('click', toggleCart);
+        cartIconWrapper.addEventListener('click', toggleCart);
         closeCartBtn.addEventListener('click', toggleCart);
         overlay.addEventListener('click', toggleCart);
         whatsappBtn.addEventListener('click', finalizarPedido);
         window.addEventListener('scroll', handleScroll);
-        
         
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1721,16 +1827,6 @@
                 }
             });
         });
-
-        if (footer && backToTopBtn) {
-            const observer = new IntersectionObserver(
-                ([entry]) => {
-                    backToTopBtn.classList.toggle('at-footer', entry.isIntersecting);
-                },
-                { threshold: 0.1 }
-            );
-            observer.observe(footer);
-        }
 
         // ===================================
         // Inicialização
