@@ -38,7 +38,7 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: var(--header-altura);
+            scroll-padding-top: calc(var(--header-altura) + 20px);
         }
 
         body {
@@ -386,6 +386,85 @@
             transform: translateY(-3px) scale(1.05);
         }
         
+        /* ========================================
+          SPOTLIGHT Section (Novidades)
+          ========================================
+        */
+        .spotlight-section {
+            padding: 80px 0;
+            background: var(--cor-secundaria);
+        }
+
+        .spotlight-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+        
+        .spotlight-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .spotlight-card.reverse .spotlight-image {
+            order: 2;
+        }
+
+        .spotlight-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--sombra-forte);
+            transition: transform 0.4s ease;
+        }
+
+        .spotlight-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .spotlight-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--cor-primaria);
+        }
+
+        .spotlight-info p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .spotlight-tag {
+            display: inline-block;
+            background: var(--cor-destaque);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spotlight-cta {
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            background-color: var(--cor-primaria);
+            color: var(--cor-branco);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--sombra);
+        }
+
+        .spotlight-cta:hover {
+            background-color: var(--cor-destaque);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--sombra-forte);
+        }
+
         /* ========================================
           Tabs de Produtos
           ========================================
@@ -1148,6 +1227,18 @@
             .hero-content p { font-size: 1.2rem; }
             h2.section-title { font-size: 2.2rem; }
 
+            .spotlight-card {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+            .spotlight-card.reverse .spotlight-image {
+                order: 0; /* Reset order for mobile */
+            }
+            .spotlight-info h3 {
+                font-size: 2rem;
+            }
+
             .produtos-grid {
                 grid-template-columns: 1fr;
                 max-width: 350px;
@@ -1226,6 +1317,15 @@
                 <h1>Sabor que abraça</h1>
                 <p>Bolos e Pães caseiros feitos com amor, fresquinhos para você.</p>
                 <a href="#produtos" class="hero-cta">Conheça nossos sabores</a>
+            </div>
+        </section>
+
+        <section id="spotlight" class="spotlight-section">
+            <div class="container">
+                <h2 class="section-title">Novidades</h2>
+                <div id="spotlight-container">
+                    <!-- Spotlight products will be injected here by JS -->
+                </div>
             </div>
         </section>
 
@@ -1327,29 +1427,30 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         // ===================================
-        // Dados (com caminhos originais das imagens)
+        // Dados dos Produtos
         // ===================================
         const produtos = [
-            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
-            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: true, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', tags: ['Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 1, nome: 'Chocolate', tipo: 'Bolo', imagem: 'images/bolodechocolate.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}]},
+            { id: 2, nome: 'Cenoura', tipo: 'Bolo', imagem: 'images/bolodecenoura.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 4, nome: 'Banana', tipo: 'Bolo', imagem: 'images/bolobanana.png', novidade: false, tags: ['Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 6, nome: 'Fubá com Goiabada', tipo: 'Bolo', imagem: 'images/bolodefuba.jpeg', novidade: false, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
             { id: 15, nome: 'Fubá Cremoso', tipo: 'Bolo', imagem: 'images/bolofuba.png', novidade: true, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido', 'Cremoso'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 26.00}, {nome: '350g', preco: 15.00}] },
-            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
-            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: true, tags: ['Contém Amendoim', 'Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
-            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: true, tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
-            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
-            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
-            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
-            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], indisponivel: false, novidade: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 7, nome: 'Fubá', tipo: 'Bolo', imagem: 'images/bolofuba.png', indisponivel: false, novidade: false, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '350g', preco: 14.00}] },
+            { id: 8, nome: 'Paçoca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', indisponivel: false, novidade: false, tags: ['Contém Amendoim', 'Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 9, nome: 'Milho', tipo: 'Bolo', imagem: 'images/bolodemilho.png', novidade: false, tags: ['Contém Milho', 'Contém Lactose'], adjectiveTags: ['Mais Pedido'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}] },
+            { id: 10, nome: 'Arroz', tipo: 'Bolo', imagem: 'images/arroz.jpeg', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 30.00}, {nome: '350g', preco: 16.00}] },
+            { id: 16, nome: 'Bolo de Mandioca', tipo: 'Bolo', imagem: 'images/bolomandioca.png', novidade: false, indisponivel: true, status: 'Em breve', tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Em Breve'], permiteCobertura: true, tamanhos: [{nome: '700g', preco: 27.00}, {nome: '350g', preco: 15.00}]},
+            { id: 11, nome: 'Pão Caseiro Tradicional', tipo: 'Pão', imagem: 'images/paocaseiro.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Tradicional'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 20.00}, {nome: '400g', preco: 13.00}] },
+            { id: 12, nome: 'Pão Caseiro Integral', tipo: 'Pão', imagem: 'images/paointegral.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 25.00}, {nome: '400g', preco: 15.00}] },
+            { id: 13, nome: 'Pão Recheado com Calabresa', tipo: 'Pão', imagem: 'images/calabresa.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
+            { id: 14, nome: 'Pão Recheado com Queijo Coalho', tipo: 'Pão', imagem: 'images/paocaseiro.png', novidade: false, tags: ['Contém Glúten', 'Contém Lactose'], adjectiveTags: ['Recheado'], indisponivel: false, permiteCobertura: false, tamanhos: [{nome: '700g', preco: 35.00}, {nome: '400g', preco: 18.00}] },
         ];
         
         const coberturas = [
-            { id: 22, nome: 'Porcelana de Leite Ninho', preco: 19.60, descricao: 'Ninho', imagem: 'images/gninho.png' },
-            { id: 23, nome: 'Brigadeiro', preco: 17.50, descricao: 'brigadeiro', imagem: 'images/brigadeiro.png' },
-            { id: 24, nome: 'Chocolate Intenso', preco: 10.50, descricao: 'chocolate intenso', imagem: 'images/brigadeirointenso.png' },
-            { id: 25, nome: 'Brigadeiro de Paçoca', preco: 19.60, descricao: 'paçoca', imagem: 'images/gninho.png' },
+            { id: 22, nome: 'Porcelana de Leite Ninho', preco: 9.80, descricao: 'Ninho', imagem: 'images/gninho.png' },
+            { id: 23, nome: 'Brigadeiro', preco: 8.75, descricao: 'brigadeiro', imagem: 'images/brigadeiro.png' },
+            { id: 24, nome: 'Chocolate Intenso', preco: 5.25, descricao: 'chocolate intenso', imagem: 'images/brigadeirointenso.png' },
+            { id: 25, nome: 'Brigadeiro de Paçoca', preco: 9.80, descricao: 'paçoca', imagem: 'images/gninho.png' },
         ];
 
 
@@ -1357,6 +1458,7 @@
         // Seletores do DOM
         // ===================================
         const loadingScreen = document.querySelector('.loading-screen');
+        const spotlightContainer = document.getElementById('spotlight-container');
         const produtosSection = document.getElementById('produtos');
         const bolosGrid = document.getElementById('bolos-grid');
         const paesGrid = document.getElementById('paes-grid');
@@ -1388,7 +1490,7 @@
         function createProductCard(produto) {
             const card = document.createElement('div');
             card.className = 'produto-card';
-            card.dataset.id = produto.id;
+            card.id = `produto-${produto.id}`; // Add ID for scrolling
             if (produto.indisponivel) card.classList.add('indisponivel');
 
             let sizeSelectorHtml = '';
@@ -1402,7 +1504,8 @@
 
             let buttonsHtml = '';
             if (produto.indisponivel) {
-                buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>Indisponível</button></div>`;
+                const buttonText = produto.status ? produto.status : 'Indisponível';
+                buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>${buttonText}</button></div>`;
             } else if (produto.permiteCobertura) {
                  buttonsHtml = `<div class="product-buttons-wrapper">
                                    <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
@@ -1417,13 +1520,15 @@
             let overlayTagsHtml = '<div class="visual-tags-container">';
             let animationDelay = 0.2;
             
+            if (produto.novidade) {
+                overlayTagsHtml += `<div class="tag-visual tag-novidade" style="animation-delay: ${animationDelay}s">Novidade</div>`;
+                animationDelay += 0.15;
+            }
             if (produto.adjectiveTags && produto.adjectiveTags.length > 0) {
                 produto.adjectiveTags.forEach(tag => {
                     overlayTagsHtml += `<div class="tag-visual tag-adjetivo" style="animation-delay: ${animationDelay}s">${tag}</div>`;
                     animationDelay += 0.15;
                 });
-            } else if (produto.novidade) {
-                overlayTagsHtml += `<div class="tag-visual tag-novidade" style="animation-delay: ${animationDelay}s">Novidade</div>`;
             }
             overlayTagsHtml += '</div>';
 
@@ -1445,7 +1550,7 @@
 
             card.innerHTML = `
                 <div class="produto-imagem-wrapper">
-                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=Bolo+Lindo'">
+                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=${produto.nome}'">
                     ${overlayTagsHtml}
                 </div>
                 <div class="produto-info">
@@ -1476,6 +1581,40 @@
                 </div>
             `;
             return card;
+        }
+
+        function renderizarSpotlight() {
+            const spotlightProdutos = produtos.filter(p => p.novidade && !p.indisponivel); 
+
+            if (spotlightProdutos.length === 0) {
+                document.getElementById('spotlight').style.display = 'none';
+                return;
+            }
+
+            spotlightContainer.innerHTML = '';
+            spotlightProdutos.forEach((produto, index) => {
+                const spotlightCard = document.createElement('div');
+                spotlightCard.className = 'spotlight-card';
+                if (index % 2 !== 0) {
+                    spotlightCard.classList.add('reverse');
+                }
+
+                const adjectives = produto.adjectiveTags ? produto.adjectiveTags.join(', ').toLowerCase() : 'delicioso';
+
+                spotlightCard.innerHTML = `
+                    <div class="spotlight-image">
+                        <img src="${produto.imagem}" alt="${produto.nome}" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produto.nome}'">
+                    </div>
+                    <div class="spotlight-info">
+                        <span class="spotlight-tag">Novidade</span>
+                        <h3>${produto.nome}</h3>
+                        <p>Experimente o mais novo sabor da Blôbom! Um bolo ${adjectives} que vai te surpreender.</p>
+                        <a href="#produto-${produto.id}" class="spotlight-cta">Ver detalhes</a>
+                    </div>
+                `;
+
+                spotlightContainer.appendChild(spotlightCard);
+            });
         }
 
         function renderizarProdutos() {
@@ -1511,7 +1650,7 @@
 
             produtoSendoPersonalizado = { ...produto, tamanhoSelecionado };
             
-            document.querySelector(`.produto-card[data-id="${produto.id}"]`).classList.add('personalizando');
+            document.querySelector(`#produto-${produto.id}`).classList.add('personalizando');
 
             coberturaStatus.innerHTML = `<h3>Personalizando: <strong>${produto.nome} (${tamanhoSelecionado.nome})</strong>. Escolha sua cobertura!</h3>`;
             coberturaStatus.style.display = 'block';
@@ -1530,7 +1669,7 @@
         
         function resetarPersonalizacao(scroll = false) {
             if (produtoSendoPersonalizado) {
-                 document.querySelector(`.produto-card[data-id="${produtoSendoPersonalizado.id}"]`).classList.remove('personalizando');
+                 document.querySelector(`#produto-${produtoSendoPersonalizado.id}`).classList.remove('personalizando');
             }
             produtoSendoPersonalizado = null;
             coberturaStatus.style.display = 'none';
@@ -1747,35 +1886,37 @@
             });
         });
 
-        produtosSection.addEventListener('click', (e) => {
-            const target = e.target.closest('button');
-            if (!target) return;
+        document.querySelector('main').addEventListener('click', handleProductClick);
 
-            const card = target.closest('.produto-card');
-            if(!card) return;
+        function handleProductClick(e) {
+            const button = e.target.closest('button');
+            if (button) {
+                const card = button.closest('.produto-card');
+                if (card) {
+                    const produtoId = parseInt(card.id.split('-')[1]);
+                    const produto = produtos.find(p => p.id === produtoId);
+                    
+                    if (button.classList.contains('size-button')) {
+                        card.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        const novoPreco = produto.tamanhos.find(t => t.nome === button.dataset.size).preco;
+                        card.querySelector('.produto-preco').textContent = `R$ ${novoPreco.toFixed(2).replace('.',',')}`;
+                        return;
+                    }
 
-            const produtoId = parseInt(card.dataset.id);
-            const produto = produtos.find(p => p.id === produtoId);
-            
-            if (target.classList.contains('size-button')) {
-                card.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                target.classList.add('active');
-                const novoPreco = produto.tamanhos.find(t => t.nome === target.dataset.size).preco;
-                card.querySelector('.produto-preco').textContent = `R$ ${novoPreco.toFixed(2).replace('.',',')}`;
-                return;
+                    const sizeSelector = card.querySelector('.size-selector .active');
+                    const tamanhoSelecionado = sizeSelector 
+                        ? produto.tamanhos.find(t => t.nome === sizeSelector.dataset.size) 
+                        : produto.tamanhos[0];
+
+                    if (button.classList.contains('btn-adicionar')) {
+                        adicionarAoCarrinho(produto, tamanhoSelecionado);
+                    } else if (button.classList.contains('btn-personalizar')) {
+                        iniciarPersonalizacao(produto, tamanhoSelecionado);
+                    }
+                }
             }
-
-            const sizeSelector = card.querySelector('.size-selector .active');
-            const tamanhoSelecionado = sizeSelector 
-                ? produto.tamanhos.find(t => t.nome === sizeSelector.dataset.size) 
-                : produto.tamanhos[0];
-
-            if (target.classList.contains('btn-adicionar')) {
-                adicionarAoCarrinho(produto, tamanhoSelecionado);
-            } else if (target.classList.contains('btn-personalizar')) {
-                iniciarPersonalizacao(produto, tamanhoSelecionado);
-            }
-        });
+        }
         
         coberturasGrid.addEventListener('click', (e) => {
              const target = e.target.closest('button.btn-adicionar-cobertura');
@@ -1831,6 +1972,7 @@
         // ===================================
         // Inicialização
         // ===================================
+        renderizarSpotlight();
         renderizarProdutos();
         renderizarCoberturas();
         updateCart();
@@ -1838,4 +1980,3 @@
     </script>
 </body>
 </html>
-```
