@@ -13,14 +13,15 @@
 
     <style>
         /* ========================================
-          CSS Reset & Variáveis Globais
-          ========================================
+         CSS Reset & Variáveis Globais
+         ========================================
         */
         :root {
             --cor-primaria: #a1623e;
             --cor-secundaria: #f0e4d7;
             --cor-destaque: #e88c52;
             --cor-sucesso: #28a745;
+            --cor-erro: #e74c3c;
             --cor-fundo: #f0f08a; /* Cor original restaurada */
             --cor-texto: #4f3b31;
             --cor-branco: #ffffff;
@@ -96,8 +97,8 @@
         }
         
         /* ========================================
-          Tela de Loading
-          ========================================
+         Tela de Loading
+         ========================================
         */
         .loading-screen {
             position: fixed;
@@ -139,8 +140,8 @@
         }
 
         /* ========================================
-          Header
-          ========================================
+         Header
+         ========================================
         */
         .header {
             position: fixed;
@@ -275,8 +276,8 @@
         }
         
         /* ========================================
-          Seção Hero (Vídeo)
-          ========================================
+         Seção Hero (Vídeo)
+         ========================================
         */
         .hero-section {
             height: 100vh;
@@ -387,8 +388,8 @@
         }
         
         /* ========================================
-          SPOTLIGHT Section (Novidades)
-          ========================================
+         SPOTLIGHT Section (Novidades)
+         ========================================
         */
         .spotlight-section {
             padding: 80px 0;
@@ -466,8 +467,8 @@
         }
 
         /* ========================================
-          Tabs de Produtos
-          ========================================
+         Tabs de Produtos
+         ========================================
         */
         .tabs-container {
             display: flex;
@@ -516,8 +517,8 @@
         }
 
         /* ========================================
-          Produtos & Coberturas
-          ========================================
+         Produtos & Coberturas
+         ========================================
         */
         .produtos-section {
             padding-top: 80px;
@@ -755,8 +756,8 @@
         }
         
         /* ========================================
-          Contato / Sobre
-          ========================================
+         Contato / Sobre
+         ========================================
         */
         .contato-section {
             padding: 80px 0;
@@ -880,8 +881,8 @@
         }
 
         /* ========================================
-          Footer
-          ========================================
+         Footer
+         ========================================
         */
         .footer {
             background-color: var(--cor-texto);
@@ -891,8 +892,8 @@
         }
         
         /* ========================================
-          Carrinho Lateral
-          ========================================
+         Carrinho Lateral
+         ========================================
         */
         .cart-sidebar {
             position: fixed;
@@ -1059,37 +1060,132 @@
             border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
-            border: 2px solid var(--cor-destaque);
+            border: 1px solid #e8c39e;
             font-size: 0.9rem;
-            line-height: 1.4;
-            -webkit-animation: pulse-border 2.5s infinite;
-            animation: pulse-border 2.5s infinite;
+            line-height: 1.5;
+        }
+        .delivery-info p {
+            margin-bottom: 8px;
+        }
+        .delivery-info p:last-child {
+            margin-bottom: 0;
         }
         
-        @-webkit-keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(232, 140, 82, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0); }
-        }
-
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(232, 140, 82, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(232, 140, 82, 0); }
-        }
-
         .delivery-info i {
             margin-right: 8px;
             color: var(--cor-destaque);
         }
-        
-        .cart-total {
+
+        /* --- ESTILOS VISUAIS E ANIMAÇÃO DO FRETE --- */
+        .cart-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .summary-line {
             display: flex;
             justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
+            font-size: 1.05rem;
         }
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--cor-primaria);
+        }
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background-color: var(--cor-branco);
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid var(--cor-secundaria);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .delivery-option:hover {
+            background-color: #fdf8f0;
+        }
+        .delivery-option.selected {
+            background-color: #fffbeb;
+            border-color: var(--cor-destaque);
+        }
+        .delivery-option label {
+            cursor: pointer;
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: left;
+        }
+        .delivery-option i {
+            color: var(--cor-primaria);
+        }
+        #delivery-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--cor-primaria);
+            cursor: pointer;
+        }
+        
+        .summary-line#cart-delivery,
+        .summary-divider {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-10px);
+            transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease, margin-top 0.4s ease, margin-bottom 0.4s ease;
+            margin: 0;
+        }
+
+        .summary-line#cart-delivery.visible,
+        .summary-divider.visible {
+            max-height: 50px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .summary-line#cart-delivery.visible {
+            margin-top: 12px;
+        }
+        .summary-divider.visible {
+            margin: 8px 0;
+        }
+
+        .delivery-address-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-10px);
+            transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease, margin-top 0.4s ease;
+            margin-top: 0;
+        }
+
+        .delivery-address-form.visible {
+            max-height: 150px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 15px;
+        }
+
+        .delivery-address-form input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--cor-secundaria);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            background-color: var(--cor-branco);
+        }
+
+        .delivery-address-form input:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 2px rgba(161, 98, 62, 0.2);
+        }
+        /* --- FIM DOS ESTILOS DO FRETE --- */
         
         .whatsapp-btn {
             display: flex;
@@ -1194,8 +1290,8 @@
         }
         
         /* ========================================
-          Responsividade
-          ========================================
+         Responsividade
+         ========================================
         */
         @media (min-width: 769px) {
             .hero-contact-icon {
@@ -1366,14 +1462,14 @@
                 <h2 class="section-title">Conheça quem faz</h2>
                  <div class="criadores">
                       <div class="criador-card">
-                           <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
-                           <h3 class="criador-nome">Felipe</h3>
-                           <p class="criador-funcao">Criador BlôBom</p>
+                          <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
+                          <h3 class="criador-nome">Felipe</h3>
+                          <p class="criador-funcao">Criador BlôBom</p>
                       </div>
                       <div class="criador-card">
-                           <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
-                           <h3 class="criador-nome">Karine</h3>
-                           <p class="criador-funcao">Criadora BlôBom</p>
+                          <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
+                          <h3 class="criador-nome">Karine</h3>
+                          <p class="criador-funcao">Criadora BlôBom</p>
                       </div>
                  </div>
 
@@ -1405,12 +1501,36 @@
         </div>
         <div class="cart-footer">
             <div class="delivery-info">
-                <p><i class="fas fa-motorcycle"></i>Entregas SOMENTE via Uber e 99Entregas. Retirada no endereço: Rua Perequê, 621</p>
+                <p><i class="fas fa-motorcycle"></i>Entregas até 8km por <strong>R$ 5,00</strong>.</p>
+                <p><i class="fas fa-store"></i>Retirada grátis no endereço: Rua Perequê, 621.</p>
+                <p><i class="fab fa-uber"></i>Para outras distâncias, fazemos a cotação da entrega via Uber ou 99.</p>
             </div>
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cart-total-price">R$ 0,00</span>
+    
+            <div class="cart-summary">
+                <div class="summary-line" id="cart-subtotal">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-price">R$ 0,00</span>
+                </div>
+                <div class="delivery-option">
+                     <i class="fas fa-shipping-fast"></i>
+                     <label for="delivery-checkbox">Adicionar entrega (até 8km)</label>
+                     <input type="checkbox" id="delivery-checkbox">
+                </div>
+                <div class="delivery-address-form">
+                    <input type="text" id="cep-input" placeholder="Seu CEP">
+                    <input type="text" id="address-input" placeholder="Seu Endereço e Número">
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-line" id="cart-delivery">
+                    <span>Taxa de Entrega</span>
+                    <span id="cart-delivery-price">R$ 5,00</span>
+                </div>
+                <div class="summary-line cart-total">
+                    <span>Total</span>
+                    <span id="cart-total-price">R$ 0,00</span>
+                </div>
             </div>
+    
             <button class="whatsapp-btn">
                 <i class="fab fa-whatsapp"></i>
                 Finalizar Pedido
@@ -1485,13 +1605,36 @@
         const whatsappBtn = document.querySelector('.whatsapp-btn');
         const backToTopBtn = document.querySelector('.back-to-top');
 
+        // --- NOVOS Seletores para Entrega ---
+        const deliveryCheckbox = document.getElementById('delivery-checkbox');
+        const cartSubtotalEl = document.getElementById('cart-subtotal-price');
+        const cartDeliveryEl = document.getElementById('cart-delivery');
+        const summaryDivider = document.querySelector('.cart-summary .summary-divider');
+        const deliveryAddressForm = document.querySelector('.delivery-address-form');
+        const cepInput = document.getElementById('cep-input');
+        const addressInput = document.getElementById('address-input');
+
+
         let cart = [];
         let produtoSendoPersonalizado = null;
         let toastTimeout;
+        const taxaEntrega = 5.00; // Valor da taxa de entrega
 
         // ===================================
-        // Funções de Renderização
+        // Funções de Renderização e UI
         // ===================================
+
+        function showToast(message, type = 'success', duration = 3000) {
+            clearTimeout(toastTimeout);
+            confirmationToast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+            
+            confirmationToast.style.backgroundColor = type === 'error' ? 'var(--cor-erro)' : 'var(--cor-sucesso)';
+
+            confirmationToast.classList.add('show');
+            toastTimeout = setTimeout(() => {
+                confirmationToast.classList.remove('show');
+            }, duration);
+        }
         
         function createProductCard(produto) {
             const card = document.createElement('div');
@@ -1514,13 +1657,13 @@
                 buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>${buttonText}</button></div>`;
             } else if (produto.permiteCobertura) {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                                   <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
-                                   <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
-                                  </div>`;
+                                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+                                     <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
+                                   </div>`;
             } else {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                                   <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
-                                  </div>`;
+                                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
+                                   </div>`;
             }
             
             let overlayTagsHtml = '<div class="visual-tags-container">';
@@ -1689,15 +1832,6 @@
         // ===================================
         // Lógica do Carrinho e UI
         // ===================================
-        function showConfirmation(message, duration = 3000) {
-            clearTimeout(toastTimeout);
-            confirmationToast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-            confirmationToast.classList.add('show');
-            toastTimeout = setTimeout(() => {
-                confirmationToast.classList.remove('show');
-            }, duration);
-        }
-
         function toggleCart() {
             cartSidebar.classList.toggle('active');
             overlay.classList.toggle('active');
@@ -1740,7 +1874,7 @@
             }
             
             updateCart();
-            showConfirmation(confirmationMessage);
+            showToast(confirmationMessage);
             cartIconWrapper.classList.add('pulse');
             setTimeout(() => {
                  cartIconWrapper.classList.remove('pulse');
@@ -1763,10 +1897,14 @@
                     </div>
                 `;
                  document.querySelector('.cart-footer').style.display = 'none';
+                 deliveryCheckbox.checked = false;
+                 deliveryCheckbox.disabled = true;
+                 updateCartTotal(); // Ensure form is hidden
                 return;
             }
 
              document.querySelector('.cart-footer').style.display = 'block';
+             deliveryCheckbox.disabled = false;
 
             cartItemsContainer.innerHTML = '';
             cart.forEach(item => {
@@ -1797,8 +1935,24 @@
         }
         
         function updateCartTotal() {
-            const total = cart.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-            cartTotalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            const subtotal = cart.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+            const entregaAtiva = deliveryCheckbox.checked && cart.length > 0;
+            const totalFinal = entregaAtiva ? subtotal + taxaEntrega : subtotal;
+
+            cartSubtotalEl.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            cartTotalEl.textContent = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`;
+
+            deliveryCheckbox.closest('.delivery-option').classList.toggle('selected', entregaAtiva);
+
+            if (entregaAtiva) {
+                cartDeliveryEl.classList.add('visible');
+                summaryDivider.classList.add('visible');
+                deliveryAddressForm.classList.add('visible');
+            } else {
+                cartDeliveryEl.classList.remove('visible');
+                summaryDivider.classList.remove('visible');
+                deliveryAddressForm.classList.remove('visible');
+            }
         }
         
         function updateCartCount() {
@@ -1837,31 +1991,59 @@
         
         function finalizarPedido() {
             if (cart.length === 0) {
-                showConfirmation('Seu carrinho está vazio!');
+                showToast('Seu carrinho está vazio!', 'error');
                 return;
             }
             
             let mensagem = "Olá Blôbom! Gostaria de fazer o seguinte pedido:\n\n";
-            let total = 0;
+            let subtotal = 0;
             
             cart.forEach(item => {
                 const nomeCompleto = item.coberturaNome ? `${item.nome} (${item.tamanho}) com ${item.coberturaNome}` : `${item.nome} (${item.tamanho})`;
                 mensagem += `${item.quantidade}x ${nomeCompleto} - R$ ${(item.preco * item.quantidade).toFixed(2).replace('.',',')}\n`;
-                total += item.preco * item.quantidade;
+                subtotal += item.preco * item.quantidade;
             });
             
-            mensagem += `\n*Total: R$ ${total.toFixed(2).replace('.',',')}*`;
+            mensagem += `\n*Subtotal: R$ ${subtotal.toFixed(2).replace('.',',')}*`;
+            
+            const entregaAtiva = deliveryCheckbox.checked;
+            let totalFinal = subtotal;
+
+            if (entregaAtiva) {
+                const cep = cepInput.value.trim();
+                const endereco = addressInput.value.trim();
+
+                if (!cep || !endereco) {
+                    showToast('Por favor, preencha seu CEP e endereço para entrega.', 'error');
+                    return;
+                }
+
+                totalFinal += taxaEntrega;
+                mensagem += `\n*Taxa de Entrega: R$ ${taxaEntrega.toFixed(2).replace('.',',')}*`;
+            }
+            
+            mensagem += `\n\n*Total Geral: R$ ${totalFinal.toFixed(2).replace('.',',')}*`;
+
+            if (entregaAtiva) {
+                const cep = cepInput.value.trim();
+                const endereco = addressInput.value.trim();
+                mensagem += "\n\n*-- DADOS PARA ENTREGA --*";
+                mensagem += `\n*CEP:* ${cep}`;
+                mensagem += `\n*Endereço:* ${endereco}`;
+            } else {
+                mensagem += "\n\n*Opção de Retirada no local selecionada.*";
+            }
             
             mensagem += "\n\n*Informações Importantes:*\n";
             mensagem += "• Todos os bolos e pães são feitos artesanalmente.\n";
             mensagem += "• Prazo de entrega: Até 48 horas.\n";
-            mensagem += "• Retirada no local: Rua Perequê, 621.\n";
+            mensagem += "• Endereço para retirada: Rua Perequê, 621.\n";
             mensagem += "• Formas de pagamento: PIX ou dinheiro.";
 
             const numeroWhatsapp = "5511959426239";
             const linkWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
             
-            window.location.href = linkWhatsapp;
+            window.open(linkWhatsapp, '_blank');
         }
 
 
@@ -1880,7 +2062,7 @@
         window.addEventListener('load', () => {
              setTimeout(() => {
                    loadingScreen.classList.add('hidden');
-            }, 500);
+             }, 500);
         });
         
         tabButtons.forEach(button => {
@@ -1928,10 +2110,10 @@
         coberturasGrid.addEventListener('click', (e) => {
              const target = e.target.closest('button.btn-adicionar-cobertura');
               if (!target || !produtoSendoPersonalizado) return;
-              
+             
               const coberturaId = parseInt(target.dataset.id);
               const cobertura = coberturas.find(c => c.id === coberturaId);
-              
+             
               adicionarAoCarrinho(produtoSendoPersonalizado, produtoSendoPersonalizado.tamanhoSelecionado, cobertura);
               resetarPersonalizacao(true);
         });
@@ -1939,7 +2121,7 @@
         cartItemsContainer.addEventListener('click', e => {
               const target = e.target.closest('button');
               if(!target) return;
-              
+             
               const id = target.dataset.id;
 
               if(target.classList.contains('quantity-increase')) {
@@ -1959,6 +2141,9 @@
         whatsappBtn.addEventListener('click', finalizarPedido);
         window.addEventListener('scroll', handleScroll);
         
+        // --- NOVO Event Listener para Entrega ---
+        deliveryCheckbox.addEventListener('change', updateCartTotal);
+
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
