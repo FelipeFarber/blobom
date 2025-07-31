@@ -49,7 +49,7 @@
             line-height: 1.6;
         }
 
-        img {
+        img, video {
             max-width: 100%;
             display: block;
         }
@@ -388,7 +388,7 @@
         }
         
         /* ========================================
-         SPOTLIGHT Section (Novidades)
+         Seção Novidades
          ========================================
         */
         .spotlight-section {
@@ -1422,11 +1422,11 @@
             </div>
         </section>
 
-        <section id="spotlight" class="spotlight-section">
+        <section id="novidades" class="spotlight-section">
             <div class="container">
                 <h2 class="section-title">Novidades</h2>
-                <div id="spotlight-container">
-                    <!-- Spotlight products will be injected here by JS -->
+                <div id="novidades-container">
+                    <!-- Novidades serão inseridas aqui pelo JS -->
                 </div>
             </div>
         </section>
@@ -1584,7 +1584,7 @@
         // Seletores do DOM
         // ===================================
         const loadingScreen = document.querySelector('.loading-screen');
-        const spotlightContainer = document.getElementById('spotlight-container');
+        const novidadesContainer = document.getElementById('novidades-container');
         const produtosSection = document.getElementById('produtos');
         const bolosGrid = document.getElementById('bolos-grid');
         const paesGrid = document.getElementById('paes-grid');
@@ -1733,38 +1733,32 @@
             return card;
         }
 
-        function renderizarSpotlight() {
-            const spotlightProdutos = produtos.filter(p => p.novidade && !p.indisponivel); 
+        function renderizarNovidades() {
+            const produtoNovidade = produtos.find(p => p.novidade && !p.indisponivel);
 
-            if (spotlightProdutos.length === 0) {
-                document.getElementById('spotlight').style.display = 'none';
+            if (!produtoNovidade) {
+                document.getElementById('novidades').style.display = 'none';
                 return;
             }
 
-            spotlightContainer.innerHTML = '';
-            spotlightProdutos.forEach((produto, index) => {
-                const spotlightCard = document.createElement('div');
-                spotlightCard.className = 'spotlight-card';
-                if (index % 2 !== 0) {
-                    spotlightCard.classList.add('reverse');
-                }
+            novidadesContainer.innerHTML = '';
+            
+            const novidadeCard = document.createElement('div');
+            novidadeCard.className = 'spotlight-card';
 
-                const adjectives = produto.adjectiveTags ? produto.adjectiveTags.join(', ').toLowerCase() : 'delicioso';
+            novidadeCard.innerHTML = `
+                <div class="spotlight-image">
+                     <img src="${produtoNovidade.imagem}" alt="${produtoNovidade.nome}" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produtoNovidade.nome}'">
+                </div>
+                <div class="spotlight-info">
+                    <span class="spotlight-tag">Lançamento</span>
+                    <h3>${produtoNovidade.nome}</h3>
+                    <p>Experimente a nossa mais nova criação! O bolo de fubá com uma cremosidade que derrete na boca. Perfeito para o seu café da tarde.</p>
+                    <a href="#produto-${produtoNovidade.id}" class="spotlight-cta">Ver detalhes</a>
+                </div>
+            `;
 
-                spotlightCard.innerHTML = `
-                    <div class="spotlight-image">
-                        <img src="${produto.imagem}" alt="${produto.nome}" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produto.nome}'">
-                    </div>
-                    <div class="spotlight-info">
-                        <span class="spotlight-tag">Novidade</span>
-                        <h3>${produto.nome}</h3>
-                        <p>Experimente o mais novo sabor da Blôbom! Um bolo ${adjectives} que vai te surpreender.</p>
-                        <a href="#produto-${produto.id}" class="spotlight-cta">Ver detalhes</a>
-                    </div>
-                `;
-
-                spotlightContainer.appendChild(spotlightCard);
-            });
+            novidadesContainer.appendChild(novidadeCard);
         }
 
         function renderizarProdutos() {
@@ -2164,7 +2158,7 @@
         // ===================================
         // Inicialização
         // ===================================
-        renderizarSpotlight();
+        renderizarNovidades();
         renderizarProdutos();
         renderizarCoberturas();
         updateCart();
