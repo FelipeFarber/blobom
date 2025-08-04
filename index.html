@@ -79,8 +79,9 @@
             font-weight: 600;
         }
         
+        /* Tipografia Fluida para melhor responsividade e zoom */
         h2.section-title {
-            font-size: 2.8rem;
+            font-size: clamp(2.2rem, 5vw + 1rem, 2.8rem);
             text-align: center;
             margin-bottom: 50px;
             position: relative;
@@ -356,7 +357,7 @@
         }
 
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 6vw + 1rem, 4rem);
             margin-bottom: 20px;
             font-family: 'Lora', serif;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
@@ -1309,25 +1310,28 @@
                 align-items: center;
                 width: 100%;
                 padding: 0 15px;
-                position: relative;
             }
-            .header-left, .header-right {
-                display: flex;
-                align-items: center;
+            .header-left {
+                flex: 1;
             }
             .header-center {
-                position: absolute;
-                left: 50%;
-                -webkit-transform: translateX(-50%);
-                transform: translateX(-50%);
+                flex: 0 1 auto;
             }
+            .header-right {
+                flex: 1;
+                justify-content: flex-end;
+            }
+
             .header-name-logo { height: 40px; }
             .header-main-logo { height: 65px; }
             .nav-menu { display: none; }
 
-            .hero-content h1 { font-size: 2.5rem; }
             .hero-content p { font-size: 1.2rem; }
-            h2.section-title { font-size: 2.2rem; }
+
+            .spotlight-section, .produtos-section, .contato-section {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
 
             .spotlight-card {
                 grid-template-columns: 1fr;
@@ -1346,7 +1350,9 @@
                 max-width: 350px;
                 margin: 0 auto;
             }
-            .produto-card .produto-info { padding: 15px; }
+            .produto-info {
+                padding: 15px;
+            }
             .produto-card h3 { font-size: 1.1rem; }
             .cobertura-card .produto-info { padding: 10px; }
             .cobertura-card h3 { font-size: 0.9rem; margin-bottom: 5px; }
@@ -1517,7 +1523,6 @@
                      <input type="checkbox" id="delivery-checkbox">
                 </div>
                 <div class="delivery-address-form">
-                    <input type="text" id="cep-input" placeholder="Seu CEP">
                     <input type="text" id="address-input" placeholder="Seu Endereço e Número">
                 </div>
                 <hr class="summary-divider">
@@ -1611,7 +1616,6 @@
         const cartDeliveryEl = document.getElementById('cart-delivery');
         const summaryDivider = document.querySelector('.cart-summary .summary-divider');
         const deliveryAddressForm = document.querySelector('.delivery-address-form');
-        const cepInput = document.getElementById('cep-input');
         const addressInput = document.getElementById('address-input');
 
 
@@ -2004,11 +2008,10 @@
             let totalFinal = subtotal;
 
             if (entregaAtiva) {
-                const cep = cepInput.value.trim();
                 const endereco = addressInput.value.trim();
 
-                if (!cep || !endereco) {
-                    showToast('Por favor, preencha seu CEP e endereço para entrega.', 'error');
+                if (!endereco) {
+                    showToast('Por favor, preencha seu endereço para entrega.', 'error');
                     return;
                 }
 
@@ -2019,10 +2022,8 @@
             mensagem += `\n\n*Total Geral: R$ ${totalFinal.toFixed(2).replace('.',',')}*`;
 
             if (entregaAtiva) {
-                const cep = cepInput.value.trim();
                 const endereco = addressInput.value.trim();
                 mensagem += "\n\n*-- DADOS PARA ENTREGA --*";
-                mensagem += `\n*CEP:* ${cep}`;
                 mensagem += `\n*Endereço:* ${endereco}`;
             } else {
                 mensagem += "\n\n*Opção de Retirada no local selecionada.*";
