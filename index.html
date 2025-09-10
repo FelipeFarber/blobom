@@ -400,7 +400,7 @@
         .spotlight-card {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            align-items: center;
+            align-items: stretch;
             gap: 50px;
             margin-bottom: 60px;
         }
@@ -422,6 +422,11 @@
 
         .spotlight-image:hover img {
             transform: scale(1.03);
+        }
+
+        .spotlight-info {
+            display: flex;
+            flex-direction: column;
         }
 
         .spotlight-info h3 {
@@ -459,11 +464,40 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: var(--sombra);
+            margin-top: auto;
         }
 
         .spotlight-cta:hover {
             background-color: var(--cor-destaque);
             transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--sombra-forte);
+        }
+
+        #novidades-container {
+            display: grid;
+            gap: 40px;
+            align-items: stretch;
+            /* Cria uma grade responsiva que muda para 1 coluna quando o espaço é limitado */
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+        
+        /* Estilo do divisor: aplicado apenas quando há duas colunas em telas maiores */
+        @media (min-width: 982px) {
+            #novidades-container > .spotlight-card:first-child:not(:last-child) {
+                border-right: 1px solid #a1623e33; /* Cor primária suave */
+                padding-right: 40px;
+            }
+
+            .spotlight-card.entrega-card {
+                grid-template-columns: 1.2fr 1fr;
+            }
+        }
+
+        .spotlight-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
             box-shadow: var(--sombra-forte);
         }
 
@@ -746,16 +780,6 @@
             margin-right: 8px;
         }
         
-        .cobertura-status {
-            text-align: center;
-            padding: 15px;
-            background-color: var(--cor-secundaria);
-            border-radius: 8px;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            display: none;
-        }
-        
         /* ========================================
          Contato / Sobre
          ========================================
@@ -839,6 +863,10 @@
             color: var(--cor-primaria);
         }
         
+        .contato-links {
+             margin-bottom: 40px;
+        }
+
         .contato-links h2 {
             font-size: 2.2rem;
             margin-bottom: 20px;
@@ -880,7 +908,7 @@
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--sombra-forte);
         }
-
+        
         /* ========================================
          Footer
          ========================================
@@ -1289,7 +1317,184 @@
             transform: translate(-50%, 0);
             opacity: 1;
         }
+
+        /* ========================================
+         Modal de Cobertura
+         ========================================
+        */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--cor-branco);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: var(--sombra-forte);
+            text-align: center;
+            max-width: 90vw; /* Usa a largura da viewport */
+            width: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
         
+        .modal-coberturas {
+            max-width: 600px;
+            width: 90vw;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal h3 {
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .modal-body {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 10px; /* Espaço para a barra de rolagem */
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 2.5rem;
+            color: #ccc;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+        .close-modal:hover {
+            color: var(--cor-texto);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            border: 2px solid var(--cor-primaria);
+        }
+
+        .modal-btn-nao {
+            background-color: transparent;
+            color: var(--cor-primaria);
+        }
+        .modal-btn-nao:hover {
+            background-color: var(--cor-secundaria);
+        }
+
+        .modal-btn-sim {
+            background-color: var(--cor-primaria);
+            color: var(--cor-branco);
+        }
+        .modal-btn-sim:hover {
+            background-color: var(--cor-destaque);
+            border-color: var(--cor-destaque);
+        }
+        
+        /* NOVO LAYOUT PARA COBERTURAS NO MODAL */
+        #coberturas-grid-modal.produtos-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #coberturas-grid-modal .cobertura-card {
+            flex-direction: row;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--cor-secundaria);
+            transition: all 0.2s ease-in-out;
+            box-shadow: none;
+        }
+        
+        #coberturas-grid-modal .cobertura-card:hover {
+            transform: none;
+            box-shadow: var(--sombra);
+            border-color: var(--cor-primaria);
+        }
+
+        #coberturas-grid-modal .produto-imagem-wrapper {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            aspect-ratio: 1 / 1;
+        }
+        
+        #coberturas-grid-modal .produto-info {
+            padding: 0 15px;
+            text-align: left;
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto auto auto;
+            gap: 0 15px;
+            align-items: center;
+        }
+
+        #coberturas-grid-modal .produto-info h3,
+        #coberturas-grid-modal .produto-detalhes,
+        #coberturas-grid-modal .produto-preco {
+             grid-column: 1 / 2;
+             margin: 2px 0;
+        }
+
+        #coberturas-grid-modal .produto-info h3 { font-size: 1.1rem; }
+        #coberturas-grid-modal .produto-detalhes { font-size: 0.85rem; min-height: 0; }
+        #coberturas-grid-modal .produto-preco { font-size: 1.1rem; }
+
+
+        #coberturas-grid-modal .btn-adicionar-cobertura {
+            grid-column: 2 / 3;
+            grid-row: 1 / 4;
+            margin-left: auto;
+            width: auto;
+            padding: 8px 16px;
+        }
+
+
         /* ========================================
          Responsividade
          ========================================
@@ -1354,6 +1559,22 @@
                 padding: 15px;
             }
             .produto-card h3 { font-size: 1.1rem; }
+            
+            #coberturas-grid-modal {
+                grid-template-columns: 1fr;
+            }
+             #coberturas-grid-modal .produto-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+             }
+             #coberturas-grid-modal .btn-adicionar-cobertura {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+             }
+            
             .cobertura-card .produto-info { padding: 10px; }
             .cobertura-card h3 { font-size: 0.9rem; margin-bottom: 5px; }
             .cobertura-card .produto-detalhes { font-size: 0.8rem; min-height: 25px; }
@@ -1383,19 +1604,19 @@
 <body>
 
     <div class="loading-screen">
-        <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="loading-logo">
+        <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="loading-logo" decoding="async">
     </div>
 
     <header class="header">
         <div class="header-content container">
             <div class="header-left">
                 <a href="#">
-                    <img src="images/icons/Letrabloblom.png" alt="Blôbom" class="header-name-logo">
+                    <img src="images/icons/Letrabloblom.png" alt="Blôbom" class="header-name-logo" decoding="async">
                 </a>
             </div>
             <div class="header-center">
                 <a href="#">
-                    <img src="images/icons/logoblobom.png" alt="BlôBom Logo" class="header-main-logo">
+                    <img src="images/icons/logoblobom.png" alt="BlôBom Logo" class="header-main-logo" decoding="async">
                 </a>
             </div>
             <div class="header-right">
@@ -1403,7 +1624,7 @@
                     <a href="#produtos" class="nav-link">Produtos</a>
                     <a href="#contato" class="nav-link">Contato</a>
                 </nav>
-                <div class="cart-icon-wrapper">
+                <div class="cart-icon-wrapper" aria-label="Ver carrinho de compras" role="button" tabindex="0">
                     <i class="fas fa-shopping-cart"></i>
                     <div class="cart-count">0</div>
                 </div>
@@ -1454,26 +1675,19 @@
                  </div>
              </div>
         </section>
-        
-        <section id="coberturas" class="produtos-section container" style="display: none;">
-             <div class="cobertura-status"></div>
-             <div id="coberturas-grid" class="produtos-grid">
-                  <!-- Coberturas serão inseridas aqui pelo JS -->
-             </div>
-        </section>
 
         <section id="contato" class="contato-section">
-            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-left">
+            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-left" decoding="async">
             <div class="container contato-wrapper">
                 <h2 class="section-title">Conheça quem faz</h2>
                  <div class="criadores">
                       <div class="criador-card">
-                          <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto">
+                          <img src="images/felipe.jpg" alt="Foto do Felipe" class="criador-foto" decoding="async">
                           <h3 class="criador-nome">Felipe</h3>
                           <p class="criador-funcao">Criador BlôBom</p>
                       </div>
                       <div class="criador-card">
-                          <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto">
+                          <img src="images/karine.jpg" alt="Foto da Karine" class="criador-foto" decoding="async">
                           <h3 class="criador-nome">Karine</h3>
                           <p class="criador-funcao">Criadora BlôBom</p>
                       </div>
@@ -1493,14 +1707,41 @@
                     </div>
                 </div>
             </div>
-            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-right">
+            <img src="images/icons/logoblobom.png" alt="Logo BlôBom" class="contato-logo-right" decoding="async">
         </section>
     </main>
+
+    <!-- MODAL DE PERGUNTA DE COBERTURA -->
+    <div class="modal-overlay" id="pergunta-cobertura-modal-overlay">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pergunta-modal-title">
+            <button class="close-modal" aria-label="Fechar modal">&times;</button>
+            <h3 id="pergunta-modal-title">Adicionar Cobertura?</h3>
+            <p>Este item pode ser personalizado com uma de nossas deliciosas coberturas.</p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-nao" id="modal-btn-nao">Não, obrigado</button>
+                <button class="modal-btn modal-btn-sim" id="modal-btn-sim">Sim, escolher</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELEÇÃO DE COBERTURA -->
+    <div class="modal-overlay" id="selecao-cobertura-modal-overlay">
+        <div class="modal modal-coberturas" role="dialog" aria-modal="true" aria-labelledby="selecao-modal-title">
+             <button class="close-modal" aria-label="Fechar modal">&times;</button>
+             <h3 id="selecao-modal-title">Escolha sua Cobertura</h3>
+             <div class="modal-body">
+                <div id="coberturas-grid-modal" class="produtos-grid">
+                    <!-- Coberturas serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <aside class="cart-sidebar">
         <div class="cart-header">
             <h3>Seu Pedido</h3>
-            <button class="close-cart">&times;</button>
+            <button class="close-cart" aria-label="Fechar carrinho">&times;</button>
         </div>
         <div class="cart-items">
             <!-- Itens do carrinho inseridos pelo JS -->
@@ -1548,7 +1789,7 @@
         <p>&copy; 2025 BlôBom - Todos os direitos reservados.</p>
     </footer>
 
-    <a href="#" class="back-to-top">
+    <a href="#" class="back-to-top" aria-label="Voltar ao topo">
         <i class="fas fa-arrow-up"></i>
     </a>
     
@@ -1593,9 +1834,6 @@
         const produtosSection = document.getElementById('produtos');
         const bolosGrid = document.getElementById('bolos-grid');
         const paesGrid = document.getElementById('paes-grid');
-        const coberturasSection = document.getElementById('coberturas');
-        const coberturasGrid = document.getElementById('coberturas-grid');
-        const coberturaStatus = document.querySelector('.cobertura-status');
         const confirmationToast = document.getElementById('confirmation-toast');
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -1610,6 +1848,13 @@
         const whatsappBtn = document.querySelector('.whatsapp-btn');
         const backToTopBtn = document.querySelector('.back-to-top');
 
+        const perguntaCoberturaModalOverlay = document.getElementById('pergunta-cobertura-modal-overlay');
+        const selecaoCoberturaModalOverlay = document.getElementById('selecao-cobertura-modal-overlay');
+        const modalBtnSim = document.getElementById('modal-btn-sim');
+        const modalBtnNao = document.getElementById('modal-btn-nao');
+        const coberturasGridModal = document.getElementById('coberturas-grid-modal');
+
+
         // --- NOVOS Seletores para Entrega ---
         const deliveryCheckbox = document.getElementById('delivery-checkbox');
         const cartSubtotalEl = document.getElementById('cart-subtotal-price');
@@ -1620,7 +1865,7 @@
 
 
         let cart = [];
-        let produtoSendoPersonalizado = null;
+        let produtoParaModal = null;
         let toastTimeout;
         const taxaEntrega = 5.00; // Valor da taxa de entrega
 
@@ -1659,14 +1904,9 @@
             if (produto.indisponivel) {
                 const buttonText = produto.status ? produto.status : 'Indisponível';
                 buttonsHtml = `<div class="product-buttons-wrapper"><button disabled>${buttonText}</button></div>`;
-            } else if (produto.permiteCobertura) {
-                 buttonsHtml = `<div class="product-buttons-wrapper">
-                                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
-                                     <button class="btn-personalizar"><i class="fas fa-plus"></i> Adicionar Cobertura</button>
-                                   </div>`;
             } else {
                  buttonsHtml = `<div class="product-buttons-wrapper">
-                                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar</button>
+                                     <button class="btn-adicionar"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
                                    </div>`;
             }
             
@@ -1704,7 +1944,7 @@
 
             card.innerHTML = `
                 <div class="produto-imagem-wrapper">
-                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=${produto.nome}'">
+                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=${produto.nome}'">
                     ${overlayTagsHtml}
                 </div>
                 <div class="produto-info">
@@ -1723,7 +1963,7 @@
             card.className = 'cobertura-card';
             card.innerHTML = `
                 <div class="produto-imagem-wrapper">
-                    <img src="${cobertura.imagem}" alt="${cobertura.nome}" class="produto-imagem" loading="lazy" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=Cobertura'">
+                    <img src="${cobertura.imagem}" alt="${cobertura.nome}" class="produto-imagem" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/400x300/f0e4d7/4f3b31?text=Cobertura'">
                 </div>
                 <div class="produto-info">
                     <h3>${cobertura.nome}</h3>
@@ -1740,29 +1980,43 @@
         function renderizarNovidades() {
             const produtoNovidade = produtos.find(p => p.novidade && !p.indisponivel);
 
-            if (!produtoNovidade) {
-                document.getElementById('novidades').style.display = 'none';
-                return;
-            }
-
             novidadesContainer.innerHTML = '';
             
-            const novidadeCard = document.createElement('div');
-            novidadeCard.className = 'spotlight-card';
+            if (produtoNovidade) {
+                const novidadeCard = document.createElement('div');
+                novidadeCard.className = 'spotlight-card';
 
-            novidadeCard.innerHTML = `
+                novidadeCard.innerHTML = `
+                    <div class="spotlight-image">
+                         <img src="${produtoNovidade.imagem}" alt="${produtoNovidade.nome}" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produtoNovidade.nome}'">
+                    </div>
+                    <div class="spotlight-info">
+                        <span class="spotlight-tag">Lançamento</span>
+                        <h3>${produtoNovidade.nome}</h3>
+                        <p>Experimente a nossa mais nova criação! O bolo de fubá com uma cremosidade que derrete na boca. Perfeito para o seu café da tarde.</p>
+                        <a href="#produto-${produtoNovidade.id}" class="spotlight-cta">Ver detalhes</a>
+                    </div>
+                `;
+                novidadesContainer.appendChild(novidadeCard);
+            }
+    
+            // Adiciona o card de entrega
+            const entregaCard = document.createElement('div');
+            entregaCard.className = 'spotlight-card entrega-card'; // Reutilizando o mesmo estilo de card
+            entregaCard.innerHTML = `
                 <div class="spotlight-image">
-                     <img src="${produtoNovidade.imagem}" alt="${produtoNovidade.nome}" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produtoNovidade.nome}'">
+                    <video autoplay loop muted playsinline>
+                        <source src="images/entrega.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
                 </div>
                 <div class="spotlight-info">
-                    <span class="spotlight-tag">Lançamento</span>
-                    <h3>${produtoNovidade.nome}</h3>
-                    <p>Experimente a nossa mais nova criação! O bolo de fubá com uma cremosidade que derrete na boca. Perfeito para o seu café da tarde.</p>
-                    <a href="#produto-${produtoNovidade.id}" class="spotlight-cta">Ver detalhes</a>
+                    <span class="spotlight-tag">Entregas</span>
+                    <h3>Receba em Casa!</h3>
+                    <p>Levamos o nosso sabor até você. Peça seus bolos e pães caseiros e receba no conforto da sua casa. Consulte a disponibilidade para o seu endereço.</p>
                 </div>
             `;
-
-            novidadesContainer.appendChild(novidadeCard);
+            novidadesContainer.appendChild(entregaCard);
         }
 
         function renderizarProdutos() {
@@ -1781,51 +2035,32 @@
             });
         }
         
-        function renderizarCoberturas() {
-            coberturasGrid.innerHTML = '';
-            coberturasSection.style.display = 'none';
-            
-             coberturas.forEach(cobertura => {
-                   coberturasGrid.appendChild(createCoberturaCard(cobertura));
+        
+        // ===================================
+        // Lógica dos Modais
+        // ===================================
+        function openPerguntaModal(produto, tamanho) {
+            produtoParaModal = { produto, tamanho };
+            perguntaCoberturaModalOverlay.classList.add('active');
+        }
+
+        function closePerguntaModal() {
+            perguntaCoberturaModalOverlay.classList.remove('active');
+        }
+
+        function openSelecaoModal() {
+            coberturasGridModal.innerHTML = '';
+            coberturas.forEach(cobertura => {
+                coberturasGridModal.appendChild(createCoberturaCard(cobertura));
             });
+            selecaoCoberturaModalOverlay.classList.add('active');
         }
-        
-        // ===================================
-        // Lógica de Personalização
-        // ===================================
-        function iniciarPersonalizacao(produto, tamanhoSelecionado) {
-            document.querySelectorAll('.produto-card.personalizando').forEach(card => card.classList.remove('personalizando'));
 
-            produtoSendoPersonalizado = { ...produto, tamanhoSelecionado };
-            
-            document.querySelector(`#produto-${produto.id}`).classList.add('personalizando');
-
-            coberturaStatus.innerHTML = `<h3>Personalizando: <strong>${produto.nome} (${tamanhoSelecionado.nome})</strong>. Escolha sua cobertura!</h3>`;
-            coberturaStatus.style.display = 'block';
-            coberturasSection.style.display = 'block';
-            
-            if(!document.getElementById('coberturas-title')) {
-                const title = document.createElement('h2');
-                title.className = 'section-title';
-                title.id = 'coberturas-title';
-                title.textContent = 'Adicione uma Cobertura';
-                coberturasSection.prepend(title);
-            }
-
-            coberturasSection.scrollIntoView({ behavior: 'smooth' });
+        function closeSelecaoModal() {
+            selecaoCoberturaModalOverlay.classList.remove('active');
+            produtoParaModal = null;
         }
-        
-        function resetarPersonalizacao(scroll = false) {
-            if (produtoSendoPersonalizado) {
-                 document.querySelector(`#produto-${produtoSendoPersonalizado.id}`).classList.remove('personalizando');
-            }
-            produtoSendoPersonalizado = null;
-            coberturaStatus.style.display = 'none';
-            coberturasSection.style.display = 'none';
-            if(scroll) {
-                produtosSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+
 
         // ===================================
         // Lógica do Carrinho e UI
@@ -1834,6 +2069,9 @@
             cartSidebar.classList.toggle('active');
             overlay.classList.toggle('active');
             document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
+            if (cartSidebar.classList.contains('active')) {
+                closeCartBtn.focus();
+            }
         }
 
         function adicionarAoCarrinho(produto, tamanho, cobertura = null) {
@@ -1897,7 +2135,7 @@
                  document.querySelector('.cart-footer').style.display = 'none';
                  deliveryCheckbox.checked = false;
                  deliveryCheckbox.disabled = true;
-                 updateCartTotal(); // Ensure form is hidden
+                 updateCartTotal();
                 return;
             }
 
@@ -1914,7 +2152,7 @@
                 const coberturaInfo = item.coberturaNome ? `<small>+ ${item.coberturaNome}</small>` : '';
 
                 itemEl.innerHTML = `
-                    <img src="${item.imagem}" alt="${item.nome}" onerror="this.src='https://placehold.co/80x80/f0e4d7/4f3b31?text=Bolo'">
+                    <img src="${item.imagem}" alt="${item.nome}" decoding="async" onerror="this.src='https://placehold.co/80x80/f0e4d7/4f3b31?text=Bolo'">
                     <div class="cart-item-info">
                         <h4>${nomeItem} ${coberturaInfo}</h4>
                         <p class="cart-item-preco">R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
@@ -1932,6 +2170,23 @@
             });
         }
         
+        function updateFinalizarButtonState() {
+            const entregaAtiva = deliveryCheckbox.checked;
+            const enderecoPreenchido = addressInput.value.trim() !== '';
+            const carrinhoVazio = cart.length === 0;
+
+            if (carrinhoVazio) {
+                whatsappBtn.disabled = true;
+                whatsappBtn.innerHTML = 'Carrinho Vazio';
+            } else if (entregaAtiva && !enderecoPreenchido) {
+                whatsappBtn.disabled = true;
+                whatsappBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Preencha o endereço';
+            } else {
+                whatsappBtn.disabled = false;
+                whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Finalizar Pedido';
+            }
+        }
+
         function updateCartTotal() {
             const subtotal = cart.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
             const entregaAtiva = deliveryCheckbox.checked && cart.length > 0;
@@ -1951,6 +2206,7 @@
                 summaryDivider.classList.remove('visible');
                 deliveryAddressForm.classList.remove('visible');
             }
+            updateFinalizarButtonState();
         }
         
         function updateCartCount() {
@@ -1988,11 +2244,6 @@
         }
         
         function finalizarPedido() {
-            if (cart.length === 0) {
-                showToast('Seu carrinho está vazio!', 'error');
-                return;
-            }
-            
             let mensagem = "Olá Blôbom! Gostaria de fazer o seguinte pedido:\n\n";
             let subtotal = 0;
             
@@ -2008,13 +2259,6 @@
             let totalFinal = subtotal;
 
             if (entregaAtiva) {
-                const endereco = addressInput.value.trim();
-
-                if (!endereco) {
-                    showToast('Por favor, preencha seu endereço para entrega.', 'error');
-                    return;
-                }
-
                 totalFinal += taxaEntrega;
                 mensagem += `\n*Taxa de Entrega: R$ ${taxaEntrega.toFixed(2).replace('.',',')}*`;
             }
@@ -2094,40 +2338,46 @@
                         : produto.tamanhos[0];
 
                     if (button.classList.contains('btn-adicionar')) {
-                        adicionarAoCarrinho(produto, tamanhoSelecionado);
-                    } else if (button.classList.contains('btn-personalizar')) {
-                        iniciarPersonalizacao(produto, tamanhoSelecionado);
+                        if (produto.permiteCobertura) {
+                            openPerguntaModal(produto, tamanhoSelecionado);
+                        } else {
+                            adicionarAoCarrinho(produto, tamanhoSelecionado);
+                        }
                     }
                 }
             }
         }
         
-        coberturasGrid.addEventListener('click', (e) => {
-             const target = e.target.closest('button.btn-adicionar-cobertura');
-              if (!target || !produtoSendoPersonalizado) return;
-             
-              const coberturaId = parseInt(target.dataset.id);
-              const cobertura = coberturas.find(c => c.id === coberturaId);
-             
-              adicionarAoCarrinho(produtoSendoPersonalizado, produtoSendoPersonalizado.tamanhoSelecionado, cobertura);
-              resetarPersonalizacao(true);
+        selecaoCoberturaModalOverlay.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target.closest('.btn-adicionar-cobertura')) {
+                const coberturaId = parseInt(target.closest('.btn-adicionar-cobertura').dataset.id);
+                const cobertura = coberturas.find(c => c.id === coberturaId);
+                if (produtoParaModal) {
+                    adicionarAoCarrinho(produtoParaModal.produto, produtoParaModal.tamanho, cobertura);
+                }
+                closeSelecaoModal();
+            } else if (target.classList.contains('close-modal') || target === selecaoCoberturaModalOverlay) {
+                closeSelecaoModal();
+            }
         });
+
         
         cartItemsContainer.addEventListener('click', e => {
-              const target = e.target.closest('button');
-              if(!target) return;
-             
-              const id = target.dataset.id;
+               const target = e.target.closest('button');
+               if(!target) return;
+              
+               const id = target.dataset.id;
 
-              if(target.classList.contains('quantity-increase')) {
+               if(target.classList.contains('quantity-increase')) {
                    changeQuantity(id, 1);
-              }
-              if(target.classList.contains('quantity-decrease')) {
+               }
+               if(target.classList.contains('quantity-decrease')) {
                    changeQuantity(id, -1);
-              }
-              if(target.classList.contains('btn-remover')) {
+               }
+               if(target.classList.contains('btn-remover')) {
                    removerItemDoCarrinho(id);
-              }
+               }
         });
         
         cartIconWrapper.addEventListener('click', toggleCart);
@@ -2136,24 +2386,49 @@
         whatsappBtn.addEventListener('click', finalizarPedido);
         window.addEventListener('scroll', handleScroll);
         
-        // --- NOVO Event Listener para Entrega ---
+        // --- Event Listeners para Entrega ---
         deliveryCheckbox.addEventListener('change', updateCartTotal);
+        addressInput.addEventListener('input', updateFinalizarButtonState);
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // --- Event Listeners para o Modal ---
+        modalBtnSim.addEventListener('click', () => {
+            if (produtoParaModal) {
+                closePerguntaModal();
+                openSelecaoModal();
+            }
+        });
+
+        modalBtnNao.addEventListener('click', () => {
+            if (produtoParaModal) {
+                adicionarAoCarrinho(produtoParaModal.produto, produtoParaModal.tamanho);
+                closePerguntaModal();
+            }
+        });
+        
+        perguntaCoberturaModalOverlay.addEventListener('click', (e) => {
+            if (e.target.classList.contains('close-modal') || e.target === perguntaCoberturaModalOverlay) {
+                closePerguntaModal();
+            }
+        });
+
+
+        // *** Event listener para rolagem suave com delegação de eventos ***
+        document.addEventListener('click', function(e) {
+            const anchor = e.target.closest('a[href^="#"]');
+            if (anchor) {
                 e.preventDefault();
-                const href = this.getAttribute('href');
+                const href = anchor.getAttribute('href');
 
                 if (href === '#') {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     return;
                 }
-                
+
                 const targetEl = document.querySelector(href);
                 if (targetEl) {
                     targetEl.scrollIntoView({ behavior: 'smooth' });
                 }
-            });
+            }
         });
 
         // ===================================
@@ -2161,9 +2436,9 @@
         // ===================================
         renderizarNovidades();
         renderizarProdutos();
-        renderizarCoberturas();
         updateCart();
     });
     </script>
 </body>
 </html>
+
