@@ -364,13 +364,13 @@
         }
 
         .hero-content p {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 25px;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
         }
 
         .hero-cta {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             padding: 15px 35px;
             border-radius: 50px;
             background-color: var(--cor-destaque);
@@ -388,6 +388,26 @@
             transform: translateY(-3px) scale(1.05);
         }
         
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hero-cta-secondary {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            padding: 10px 25px;
+            background-color: transparent;
+            border: 2px solid var(--cor-branco);
+        }
+
+        .hero-cta-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--cor-secundaria);
+            transform: translateY(-3px) scale(1.05);
+        }
+
         /* ========================================
          Seção Novidades
          ========================================
@@ -399,8 +419,8 @@
 
         .spotlight-card {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: stretch;
+            grid-template-columns: 0.8fr 1.2fr;
+            align-items: center;
             gap: 50px;
             margin-bottom: 60px;
         }
@@ -413,20 +433,17 @@
             order: 2;
         }
 
-        .spotlight-image img {
+        .spotlight-image img, .spotlight-image video {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 12px;
             box-shadow: var(--sombra-forte);
             transition: transform 0.4s ease;
         }
 
-        .spotlight-image:hover img {
+        .spotlight-image:hover img, .spotlight-image:hover video {
             transform: scale(1.03);
-        }
-
-        .spotlight-info {
-            display: flex;
-            flex-direction: column;
         }
 
         .spotlight-info h3 {
@@ -464,7 +481,6 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: var(--sombra);
-            margin-top: auto;
         }
 
         .spotlight-cta:hover {
@@ -472,35 +488,15 @@
             transform: translateY(-3px) scale(1.05);
             box-shadow: var(--sombra-forte);
         }
-
+        
         #novidades-container {
             display: grid;
+            grid-template-columns: 1fr;
             gap: 40px;
             align-items: stretch;
-            /* Cria uma grade responsiva que muda para 1 coluna quando o espaço é limitado */
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            max-width: 800px;
+            margin: 0 auto;
         }
-        
-        /* Estilo do divisor: aplicado apenas quando há duas colunas em telas maiores */
-        @media (min-width: 982px) {
-            #novidades-container > .spotlight-card:first-child:not(:last-child) {
-                border-right: 1px solid #a1623e33; /* Cor primária suave */
-                padding-right: 40px;
-            }
-
-            .spotlight-card.entrega-card {
-                grid-template-columns: 1.2fr 1fr;
-            }
-        }
-
-        .spotlight-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: var(--sombra-forte);
-        }
-
         /* ========================================
          Tabs de Produtos
          ========================================
@@ -1537,7 +1533,7 @@
                 padding-top: 60px;
                 padding-bottom: 60px;
             }
-
+            
             .spotlight-card {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -1548,6 +1544,13 @@
             }
             .spotlight-info h3 {
                 font-size: 2rem;
+            }
+            
+            .spotlight-info {
+                align-items: center;
+            }
+            .spotlight-cta {
+                align-self: center;
             }
 
             .produtos-grid {
@@ -1621,6 +1624,7 @@
             </div>
             <div class="header-right">
                 <nav class="nav-menu">
+                    <a href="#novidades" class="nav-link">Novidades</a>
                     <a href="#produtos" class="nav-link">Produtos</a>
                     <a href="#contato" class="nav-link">Contato</a>
                 </nav>
@@ -1645,7 +1649,10 @@
             <div class="hero-content">
                 <h1>Sabor que abraça</h1>
                 <p>Bolos e Pães caseiros feitos com amor, fresquinhos para você.</p>
-                <a href="#produtos" class="hero-cta">Conheça nossos sabores</a>
+                <div class="hero-actions">
+                    <a href="#produtos" class="hero-cta">Conheça nossos sabores</a>
+                    <a href="#novidades" class="hero-cta hero-cta-secondary">Novidades</a>
+                </div>
             </div>
         </section>
 
@@ -1978,31 +1985,11 @@
         }
 
         function renderizarNovidades() {
-            const produtoNovidade = produtos.find(p => p.novidade && !p.indisponivel);
-
             novidadesContainer.innerHTML = '';
-            
-            if (produtoNovidade) {
-                const novidadeCard = document.createElement('div');
-                novidadeCard.className = 'spotlight-card';
 
-                novidadeCard.innerHTML = `
-                    <div class="spotlight-image">
-                         <img src="${produtoNovidade.imagem}" alt="${produtoNovidade.nome}" loading="lazy" decoding="async" onerror="this.src='https://placehold.co/600x450/f0e4d7/4f3b31?text=${produtoNovidade.nome}'">
-                    </div>
-                    <div class="spotlight-info">
-                        <span class="spotlight-tag">Lançamento</span>
-                        <h3>${produtoNovidade.nome}</h3>
-                        <p>Experimente a nossa mais nova criação! O bolo de fubá com uma cremosidade que derrete na boca. Perfeito para o seu café da tarde.</p>
-                        <a href="#produto-${produtoNovidade.id}" class="spotlight-cta">Ver detalhes</a>
-                    </div>
-                `;
-                novidadesContainer.appendChild(novidadeCard);
-            }
-    
-            // Adiciona o card de entrega
+            // Card de Entregas - agora é o único item
             const entregaCard = document.createElement('div');
-            entregaCard.className = 'spotlight-card entrega-card'; // Reutilizando o mesmo estilo de card
+            entregaCard.className = 'spotlight-card';
             entregaCard.innerHTML = `
                 <div class="spotlight-image">
                     <video autoplay loop muted playsinline>
@@ -2013,7 +2000,8 @@
                 <div class="spotlight-info">
                     <span class="spotlight-tag">Entregas</span>
                     <h3>Receba em Casa!</h3>
-                    <p>Levamos o nosso sabor até você. Peça seus bolos e pães caseiros e receba no conforto da sua casa. Consulte a disponibilidade para o seu endereço.</p>
+                    <p>Consulte a disponibilidade</p>
+                    <a href="#produtos" class="spotlight-cta">Fazer Pedido</a>
                 </div>
             `;
             novidadesContainer.appendChild(entregaCard);
